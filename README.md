@@ -7,4 +7,4 @@ oct_illustris is a toolkit for analyzing [Illustris](https://www.illustris-proje
 
 ## Maintainer
 
-[Bill Chen](https://github.com/EnthalpyBill).
+[@EnthalpyBill (Bill Chen)](https://github.com/EnthalpyBill)
