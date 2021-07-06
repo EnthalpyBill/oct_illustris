@@ -5,6 +5,7 @@ class octree(object):
 
 	def __init__(self, pos, length, offset, boundary, height):
 		super(octree, self).__init__()
+
 		self._pos = pos
 		self._length = length
 		self._offset = offset
@@ -30,8 +31,7 @@ class octree(object):
 
 		# Sort rank with index
 		rank = np.arange(self._offset, self._offset+self._length, dtype='i8')
-		c = np.argsort(idx_1d)
-		return rank[c]
+		return rank[np.argsort(idx_1d)]
 
 
 	
