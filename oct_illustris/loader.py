@@ -1,8 +1,8 @@
 import numpy
-
-from .il_util import partTypeNum, snapPath, getNumPart
 import h5py
 import six
+
+from .il_util import partTypeNum, snapPath, getNumPart
 
 def loadFile(fn, partType, fields=None, mdi=None, float32=True):
     """ Load a subset of fileds for all particles/cells of a given partType
@@ -17,13 +17,13 @@ def loadFile(fn, partType, fields=None, mdi=None, float32=True):
         partType = [partType]
     
     result = {}
-    with h5py.File(fn, 'r') as f:
-        for pt in partType:
-            ptNum = partTypeNum(pt)
-            gName = "PartType%01d"%(ptNum)
+    with h5py.File(fn, "r") as f:
+        for p in partType:
+            ptNum = partTypeNum(p)
+            gName = "PartType%d"%(ptNum)
 
-            numType = f['Header'].attrs['NumPart_ThisFile'][ptNum]
-            result[gName]['count'] = numType
+            numType = f["Header"].attrs["NumPart_ThisFile"][ptNum]
+            result[gName]["count"] = numType
 
             if not numType:
                 continue
@@ -37,7 +37,7 @@ def loadFile(fn, partType, fields=None, mdi=None, float32=True):
             # Loop over each requested field for this particle type
             for i, field in enumerate(fields):
                 # Read data local to the current file
-                    result[gName][field] = f[gName][field]
+                    result[gName][field] = f[gName][field][:]
                 else:
                     result[gName][field] = f[gName][field][:,mdi[i]]
 
