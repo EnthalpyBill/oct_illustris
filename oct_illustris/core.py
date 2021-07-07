@@ -2,28 +2,27 @@ import os
 import numpy as np
 import h5py
 
-from .il_util import partTypeNum
-from .loader import loadFile
+from .il_util import *
 from .octree import octree
 
 class dataset(object):
     """docstring for dataset"""
-    def __init__(self, fn, pt, height=8, index_fn=None):
+    def __init__(self, fn, partType, depth=8, index_fn=None):
         super(dataset, self).__init__()
 
         self._fn = fn
-        self._pt = pt
-        self._height = height
+        self._partType = partType
+        self._depth = depth
 
         self._pt_idx = 0
 
-        for p in pt:
+        for p in partType:
             self._pt_idx += 2**partTypeNum(p)
 
         if index_fn:
             self._index_fn = index_fn
         else:
-            self._index_fn = fn + ".idx_h%02d_pt%02d.h5"%(height, self._pt_idx)
+            self._index_fn = fn + ".idx_d%02d_pt%02d.h5"%(depth, self._pt_idx)
 
         self._index = None
         with h5py.File(fn, 'r') as f:
@@ -37,8 +36,8 @@ class dataset(object):
         return self._fn
 
     @property
-    def pt(self):
-        return self._pt
+    def partType(self):
+        return self._partType
 
     @property
     def box_size(self):
@@ -59,7 +58,7 @@ class dataset(object):
         # Load index if index file exists
         if os.path.isfile(self._index_fn):
             with h5py.File(self._index_fn,'r') as f:
-                for p in self._pt:
+                for p in self._partType:
                     ptNum = partTypeNum(p)
                     gName = "PartType%d"%(ptNum)
                     self._index[gName]["count"] = f[gName].attrs["count"]
@@ -68,14 +67,15 @@ class dataset(object):
                         continue
 
                     self._index[gName]["index"] = f[gName]["index"][:]
+                    self._index[gName]["mark"] = f[gName]["mark"][:]
 
             return self._index
 
         # Compute and save index if index file does not exist
-        data = loadFile(fn, self._pt, "Coordinates")
+        data = loadFile(fn, self._partType, "Coordinates")
         with h5py.File(self._index_fn,'w') as f:
             # Loop over each requested field for this particle type
-            for p in self._pt:
+            for p in self._partType:
                 ptNum = partTypeNum(p)
                 gName = "PartType%d"%(ptNum)
                 grp = f.create_group(gName)
@@ -86,13 +86,21 @@ class dataset(object):
 
                 if not length:
                     continue
+                elif length <= 2147483647:
+                    int_data = "i4"
+                else:
+                    int_data = "i8"
 
                 pos = data[gName]["Coordinates"]
-                ot = octree(pos, length, 0, self._boundary, self._height)
+                ot = octree(pos, length, 0, self._boundary, self._depth)
 
-                self._index[gName]["index"] = ot.build()
+                self._index[gName]["index"], self._index[gName]["mark"] = ot.build()
                 grp.create_dataset("index", 
-                    data=self._index[gName]["index"], dtype="u4")
+                    data=self._index[gName]["index"], dtype=int_data)
+                grp.create_dataset("mark", 
+                    data=self._index[gName]["mark"], dtype=int_data)
 
         return self._index
 
+    def box(self, boundary, partType, fields):
+        pass
