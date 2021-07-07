@@ -1,47 +1,10 @@
 import numpy
 import h5py
-import six
 
 from .il_util import partTypeNum, snapPath, getNumPart
 
-def loadFile(fn, partType, fields=None, mdi=None, float32=True):
-    """ Load a subset of fileds for all particles/cells of a given partType
-        in one file. """
-
-    # Make sure fields is not a single element
-    if isinstance(fields, six.string_types):
-        fields = [fields]
-
-    # Make sure partType is not a single element
-    if isinstance(partType, six.string_types):
-        partType = [partType]
-    
-    result = {}
-    with h5py.File(fn, "r") as f:
-        for p in partType:
-            ptNum = partTypeNum(p)
-            gName = "PartType%d"%(ptNum)
-
-            numType = f["Header"].attrs["NumPart_ThisFile"][ptNum]
-            result[gName]["count"] = numType
-
-            if not numType:
-                continue
-
-            # Allocate within return dict
-            dtype = f[gName][field].dtype
-            shape = f[gName][field].shape
-            if dtype == np.float64 and float32: dtype = np.float32
-            result[gName][field] = np.zeros(shape, dtype=dtype)
-
-            # Loop over each requested field for this particle type
-            for i, field in enumerate(fields):
-                # Read data local to the current file
-                    result[gName][field] = f[gName][field][:]
-                else:
-                    result[gName][field] = f[gName][field][:,mdi[i]]
-
-    return result
+def load(basePath, snapNum, partType):
+    fn = snapPath(basePath, snapNum)
 
 def loadSubset(basePath, snapNum, partType, fields=None, subset=None, mdi=None, sq=True, float32=False):
     """ Load a subset of fields for all particles/cells of a given partType.
@@ -58,7 +21,7 @@ def loadSubset(basePath, snapNum, partType, fields=None, subset=None, mdi=None, 
     gName = "PartType" + str(ptNum)
 
     # make sure fields is not a single element
-    if isinstance(fields, six.string_types):
+    if isinstance(fields, str):
         fields = [fields]
 
     # load header from first chunk
