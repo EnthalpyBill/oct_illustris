@@ -1,10 +1,21 @@
 import numpy
 import h5py
 
+from .core import dataset, singleDataset
 from .il_util import partTypeNum, snapPath, getNumPart
 
-def load(basePath, snapNum, partType):
-    fn = snapPath(basePath, snapNum)
+def load(basePath, snapNum, partType, depth=8, index_fn=None):
+    # Determine number of chunks
+    with h5py.File(snapPath(basePath, snapNum), "r") as f:
+        n_chunk = f["Header"].attrs["NumFilesPerSnapshot"][ptNum]
+
+    d = []
+    # Loop over chunks
+    for i in range(n_chunk):
+        fn = snapPath(basePath, snapNum, i)
+        d.append(singleDataset(fn, partType, depth, index_fn))
+
+    return dataset(d, n_chunk)
 
 def loadSubset(basePath, snapNum, partType, fields=None, subset=None, mdi=None, sq=True, float32=False):
     """ Load a subset of fields for all particles/cells of a given partType.
