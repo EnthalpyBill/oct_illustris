@@ -1,6 +1,6 @@
 import numpy as np
 
-def loadFile(fn, partType, fields=None, mdi=None, float32=True):
+def loadFile(fn, partType, fields=None, mdi=None, float32=True, index=None):
     """ Load a subset of fileds for all particles/cells of a given partType
         in one file. """
 
@@ -32,10 +32,17 @@ def loadFile(fn, partType, fields=None, mdi=None, float32=True):
 
             # Loop over each requested field for this particle type
             for i, field in enumerate(fields):
-                # Read data local to the current file
-                    result[gName][field] = f[gName][field][:]
+                # read data local to the current file
+                if index:
+                    if mdi is None or mdi[i] is None:
+                        result[gName][field] = f[gName][field][index[i]]
+                    else:
+                        result[gName][field] = f[gName][field][index[i],mdi[i]]
                 else:
-                    result[gName][field] = f[gName][field][:,mdi[i]]
+                    if mdi is None or mdi[i] is None:
+                        result[gName][field] = f[gName][field][:]
+                    else:
+                        result[gName][field] = f[gName][field][:,mdi[i]]
 
     return result
 
