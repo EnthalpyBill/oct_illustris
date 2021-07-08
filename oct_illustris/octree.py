@@ -14,17 +14,17 @@ class octree(object):
 
 		# Set the int type for data
 		if length <= 2147483647:
-			self._int_data = "i4"
+			self._int_data = np.int32
 		else:
-			self._int_data = "i8"
+			self._int_data = np.int64
 
 		# Set the int type for octree
 		if depth <= 10:
 			# By setting dtype to int32, the maximum level is 10
-			self._int_tree = "i4"
+			self._int_tree = np.int32
 		elif depth <=20:
 			# By setting dtype to int64, the maximum level is 20
-			self._int_tree = "i8"
+			self._int_tree = np.int64
 		else:
 			raise ValueError("The depth of octree must be no more than 20!")
 
@@ -43,7 +43,7 @@ class octree(object):
 			(self._boundary[1] - self._boundary[0]), dtype=self._int_tree)
 
 		# Conbine 3D index into 1D 
-		idx_1d = np.left_shift(idx_3d, [2*self._depth,self._depth,0])
+		idx_1d = np.sum(np.left_shift(idx_3d, [2*self._depth,self._depth,0]))
 
 		# Sort rank with index
 		idx = np.argsort(idx_1d)
