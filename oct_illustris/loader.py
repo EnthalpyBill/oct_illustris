@@ -14,7 +14,7 @@ from .il_util import partTypeNum, snapPath, getNumPart
 
 __all__ = ["load"]
 
-def load(basePath, snapNum, partType, depth=8, index_fn=None):
+def load(basePath, snapNum, partType, depth=8, index_path=None):
     # Determine number of chunks
     with h5py.File(snapPath(basePath, snapNum), "r") as f:
         n_chunk = f["Header"].attrs["NumFilesPerSnapshot"]
@@ -23,7 +23,7 @@ def load(basePath, snapNum, partType, depth=8, index_fn=None):
     # Loop over chunks
     for i in range(n_chunk):
         fn = snapPath(basePath, snapNum, i)
-        d.append(singleDataset(fn, partType, depth, index_fn))
+        d.append(singleDataset(fn, partType, depth, index_path))
 
     return dataset(d, n_chunk)
 
