@@ -184,7 +184,7 @@ class singleDataset(object):
         self.index # pre-indexing
 
         boundary_normalized = (
-            2**self._level * (boundary - self._boundary[0]) / 
+            2**self._depth * (boundary - self._boundary[0]) / 
             (self._boundary[1] - self._boundary[0]))
 
         if method in ["outer", "exact"]:
