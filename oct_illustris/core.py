@@ -140,6 +140,7 @@ class singleDataset(object):
                 for p in self._partType:
                     ptNum = partTypeNum(p)
                     gName = "PartType%d"%(ptNum)
+                    self._index[gName] = {}
                     self._index[gName]["count"] = f[gName].attrs["count"]
 
                     if not self._index[gName]["count"]:
@@ -184,7 +185,7 @@ class singleDataset(object):
 
     def box(self, boundary, partType, fields, mdi=None, float32=True, 
         method="outer"):
-    
+
         # Make sure fields is not a single element
         if isinstance(fields, str):
             fields = [fields]
