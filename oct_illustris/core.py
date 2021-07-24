@@ -148,7 +148,8 @@ class singleDataset(object):
 
         # Compute and save index if index file does not exist
         data = loadFile(self._fn, self._partType, "Coordinates")
-        with h5py.File(self._index_fn,'w') as f:
+        save_fn = self._index_fn + self._fn[self._fn.rfind("/"):]
+        with h5py.File(save_fn, "w") as f:
             # Loop over particle types
             for p in self._partType:
                 ptNum = partTypeNum(p)
