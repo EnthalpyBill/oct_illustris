@@ -51,7 +51,7 @@ class octree(object):
 		idx = np.argsort(idx_1d)
 
 		idx_all = np.arange(8**self._depth, dtype=self._int_tree)
-		mark = np.np.empty_like(idx_all+1, dtype=self._int_data)
+		mark = np.empty_like(idx_all+1, dtype=self._int_data)
 		mark[0] = 0
 		mark[1:] = np.searchsorted(idx_1d, idx_all, side="right", sorter=idx)
 
