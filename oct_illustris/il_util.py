@@ -30,8 +30,6 @@ def loadFile(fn, partType, fields=None, mdi=None, float32=True, index=None):
             result[gName] = {}
 
             numType = f["Header"].attrs["NumPart_ThisFile"][ptNum]
-            result[gName]["count"] = numType
-
             if not numType:
                 continue
 
