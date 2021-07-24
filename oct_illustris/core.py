@@ -229,7 +229,7 @@ class singleDataset(object):
 
             targets.append(target)
 
-        return loadFile(fn, partType, fields, mdi, float32, targets)
+        return loadFile(self._fn, partType, fields, mdi, float32, targets)
 
 
     def sphere(self, center, radius, partType, fields, mdi=None, method="outer"):
