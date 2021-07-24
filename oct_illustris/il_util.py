@@ -25,6 +25,7 @@ def loadFile(fn, partType, fields=None, mdi=None, float32=True, index=None):
         for p in partType:
             ptNum = partTypeNum(p)
             gName = "PartType%d"%(ptNum)
+            result[gName] = {}
 
             numType = f["Header"].attrs["NumPart_ThisFile"][ptNum]
             result[gName]["count"] = numType
