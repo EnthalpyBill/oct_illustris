@@ -7,7 +7,7 @@ from .il_util import partTypeNum, snapPath, getNumPart
 def load(basePath, snapNum, partType, depth=8, index_fn=None):
     # Determine number of chunks
     with h5py.File(snapPath(basePath, snapNum), "r") as f:
-        n_chunk = f["Header"].attrs["NumFilesPerSnapshot"][ptNum]
+        n_chunk = f["Header"].attrs["NumFilesPerSnapshot"][partTypeNum(partType)]
 
     d = []
     # Loop over chunks
