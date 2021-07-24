@@ -62,7 +62,7 @@ class dataset(object):
 class singleDataset(object):
     """docstring for dataset"""
     def __init__(self, fn, partType, depth=8, index_fn=None):
-        super(dataset, self).__init__()
+        super(singleDataset, self).__init__()
 
         self._fn = fn
 
