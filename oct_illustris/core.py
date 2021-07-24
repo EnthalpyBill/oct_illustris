@@ -157,7 +157,7 @@ class singleDataset(object):
                 grp = f.create_group(gName)
 
                 length = data[gName]["count"]
-                result[gName]["count"] = length
+                self._index[gName]["count"] = length
                 grp.attrs["count"] =  length
 
                 if not length:
