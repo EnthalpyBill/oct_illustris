@@ -236,6 +236,7 @@ class singleDataset(object):
                         target = (np.r_[target, 
                             self._index[gName]["index"][start:end]])
 
+            target.sort()
             targets.append(target)
 
         return loadFile(self._fn, partType, fields, mdi, float32, targets)
