@@ -1,7 +1,7 @@
 # Copyright (c) 2021 Bill Chen
 # License: MIT (https://opensource.org/licenses/MIT)
 
-import numpy
+import numpy as np
 
 class octree(object):
 	"""docstring for octree"""
