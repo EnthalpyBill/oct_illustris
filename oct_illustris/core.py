@@ -26,6 +26,15 @@ class dataset(object):
         return self._n_chunk
 
     def _combine(self, func, partType, fields, mdi=None, float32=False, **kwargs):
+
+        # Make sure fields is not a single element
+        if isinstance(fields, str):
+            fields = [fields]
+
+        # Make sure partType is not a single element
+        if isinstance(partType, str):
+            partType = [partType]
+
         for j, d in enumerate(self._datasets):
             if func == "box":
                 r = d.box(kwargs["boundary"], 
