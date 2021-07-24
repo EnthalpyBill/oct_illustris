@@ -154,6 +154,7 @@ class singleDataset(object):
             for p in self._partType:
                 ptNum = partTypeNum(p)
                 gName = "PartType%d"%(ptNum)
+                self._index[gName] = {}
                 grp = f.create_group(gName)
 
                 length = data[gName]["count"]
