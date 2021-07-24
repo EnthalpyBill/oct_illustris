@@ -1,3 +1,6 @@
+# Copyright (c) 2021 Bill Chen.
+# License: MIT (https://opensource.org/licenses/MIT)
+
 import os
 import numpy as np
 import h5py
