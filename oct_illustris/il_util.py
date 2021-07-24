@@ -33,14 +33,14 @@ def loadFile(fn, partType, fields=None, mdi=None, float32=True, index=None):
             if not numType:
                 continue
 
-            # Allocate within return dict
-            dtype = f[gName][field].dtype
-            shape = f[gName][field].shape
-            if dtype == np.float64 and float32: dtype = np.float32
-            result[gName][field] = np.zeros(shape, dtype=dtype)
-
             # Loop over each requested field for this particle type
             for i, field in enumerate(fields):
+                # Allocate within return dict
+                dtype = f[gName][field].dtype
+                shape = f[gName][field].shape
+                if dtype == np.float64 and float32: dtype = np.float32
+                result[gName][field] = np.zeros(shape, dtype=dtype)
+            
                 # read data local to the current file
                 if index:
                     if mdi is None or mdi[i] is None:
