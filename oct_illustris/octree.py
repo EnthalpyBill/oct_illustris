@@ -41,9 +41,8 @@ class octree(object):
 		return self._depth
 
 	def build(self):
-		idx_3d = np.astype(
-			2**self._level * (self._pos - self._boundary[0]) / 
-			(self._boundary[1] - self._boundary[0]), dtype=self._int_tree)
+		idx_3d = (2**self._level * (self._pos - self._boundary[0]) //
+			(self._boundary[1] - self._boundary[0])).astype(self._int_tree)
 
 		# Conbine 3D index into 1D 
 		idx_1d = np.sum(np.left_shift(idx_3d, [2*self._depth,self._depth,0]))
