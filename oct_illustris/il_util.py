@@ -44,14 +44,14 @@ def loadFile(fn, partType, fields=None, mdi=None, float32=True, index=None):
                 # read data local to the current file
                 if index:
                     if mdi is None or mdi[i] is None:
-                        result[gName][field] = f[gName][field][index[i]]
+                        result[gName][field] = f[gName][field][:][index[i]]
                     else:
-                        result[gName][field] = f[gName][field][index[i],mdi[i]]
+                        result[gName][field] = f[gName][field][:][index[i],mdi[i]]
                 else:
                     if mdi is None or mdi[i] is None:
                         result[gName][field] = f[gName][field][:]
                     else:
-                        result[gName][field] = f[gName][field][:,mdi[i]]
+                        result[gName][field] = f[gName][field][:][:,mdi[i]]
 
     return result
 
