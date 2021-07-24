@@ -66,7 +66,7 @@ class dataset(object):
         
 class singleDataset(object):
     """docstring for dataset"""
-    def __init__(self, fn, partType, depth=8, index_fn=None):
+    def __init__(self, fn, partType, depth=8, index_path=None):
         super(singleDataset, self).__init__()
 
         self._fn = fn
@@ -83,10 +83,12 @@ class singleDataset(object):
         for p in partType:
             self._pt_idx += 2**partTypeNum(p)
 
-        if index_fn:
-            self._index_fn = index_fn
+        self._index_path = index_path
+        suffix = ".idx_d%02d_pt%02d.h5"%(depth, self._pt_idx)
+        if index_path:
+            self._index_fn = index_path + fn[fn.rfind("/"):] + suffix
         else:
-            self._index_fn = fn + ".idx_d%02d_pt%02d.h5"%(depth, self._pt_idx)
+            self._index_fn = fn + suffix
 
         self._index = None
         with h5py.File(fn, 'r') as f:
@@ -149,9 +151,8 @@ class singleDataset(object):
             return self._index
 
         # Compute and save index if index file does not exist
-        data = loadFile(self._fn, self._partType, "Coordinates")
-        save_fn = self._index_fn + self._fn[self._fn.rfind("/"):]
-        with h5py.File(save_fn, "w") as f:
+        data = loadFile(self._fn, self._partType, "Coordinates")self._index_fn
+        with h5py.File(self._index_fn, "w") as f:
             # Loop over particle types
             for p in self._partType:
                 ptNum = partTypeNum(p)
