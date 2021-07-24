@@ -8,6 +8,8 @@ import h5py
 from .il_util import *
 from .octree import octree
 
+__all__ = ["dataset", "singleDataset"]
+
 class dataset(object):
     """docstring for dataset"""
     def __init__(self, datasets, n_chunk):

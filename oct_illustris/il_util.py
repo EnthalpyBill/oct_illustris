@@ -8,6 +8,8 @@
 import numpy as np
 import h5py
 
+__all__ = ["loadFile", "partTypeNum", "snapPath", "getNumPart"]
+
 def loadFile(fn, partType, fields=None, mdi=None, float32=True, index=None):
     """ Load a subset of fileds for all particles/cells of a given partType
         in one file. """
@@ -40,7 +42,7 @@ def loadFile(fn, partType, fields=None, mdi=None, float32=True, index=None):
                 shape = f[gName][field].shape
                 if dtype == np.float64 and float32: dtype = np.float32
                 result[gName][field] = np.zeros(shape, dtype=dtype)
-            
+
                 # read data local to the current file
                 if index:
                     if mdi is None or mdi[i] is None:

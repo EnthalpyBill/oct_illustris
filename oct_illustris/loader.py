@@ -12,6 +12,8 @@ import h5py
 from .core import dataset, singleDataset
 from .il_util import partTypeNum, snapPath, getNumPart
 
+__all__ = ["load"]
+
 def load(basePath, snapNum, partType, depth=8, index_fn=None):
     # Determine number of chunks
     with h5py.File(snapPath(basePath, snapNum), "r") as f:

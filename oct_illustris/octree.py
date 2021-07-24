@@ -3,6 +3,8 @@
 
 import numpy as np
 
+__all__ = ["octree"]
+
 class octree(object):
 	"""docstring for octree"""
 
