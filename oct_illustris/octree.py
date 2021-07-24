@@ -41,7 +41,7 @@ class octree(object):
 		return self._depth
 
 	def build(self):
-		idx_3d = (2**self._level * (self._pos - self._boundary[0]) //
+		idx_3d = (2**self._depth * (self._pos - self._boundary[0]) //
 			(self._boundary[1] - self._boundary[0])).astype(self._int_tree)
 
 		# Conbine 3D index into 1D 
@@ -50,7 +50,7 @@ class octree(object):
 		# Sort rank with index
 		idx = np.argsort(idx_1d)
 
-		idx_all = np.arange(8**self._level, dtype=self._int_tree)
+		idx_all = np.arange(8**self._depth, dtype=self._int_tree)
 		mark = np.np.empty_like(idx_all+1, dtype=self._int_data)
 		mark[0] = 0
 		mark[1:] = np.searchsorted(idx_1d, idx_all, side="right", sorter=idx)
