@@ -138,6 +138,3 @@ def loadSubset(basePath, snapNum, partType, fields=None, subset=None, mdi=None, 
         return result[fields[0]]
 
     return result
-
-def load(fn, indexfile=None):
-    pass
