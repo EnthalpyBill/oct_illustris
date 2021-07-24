@@ -6,7 +6,7 @@
 # Copyright (c) 2017, illustris & illustris_python developers
 # License: FreeBSD (https://opensource.org/licenses/BSD-2-Clause)
 
-import numpy
+import numpy as np
 import h5py
 
 from .core import dataset, singleDataset
