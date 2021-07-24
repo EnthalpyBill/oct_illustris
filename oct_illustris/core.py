@@ -184,6 +184,15 @@ class singleDataset(object):
 
     def box(self, boundary, partType, fields, mdi=None, float32=True, 
         method="outer"):
+    
+        # Make sure fields is not a single element
+        if isinstance(fields, str):
+            fields = [fields]
+
+        # Make sure partType is not a single element
+        if isinstance(partType, str):
+            partType = [partType]
+
         self.index # pre-indexing
 
         boundary_normalized = (
