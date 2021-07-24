@@ -6,6 +6,7 @@
 # License: FreeBSD (https://opensource.org/licenses/BSD-2-Clause)
 
 import numpy as np
+import h5py
 
 def loadFile(fn, partType, fields=None, mdi=None, float32=True, index=None):
     """ Load a subset of fileds for all particles/cells of a given partType
