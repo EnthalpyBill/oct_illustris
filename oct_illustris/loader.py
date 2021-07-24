@@ -1,9 +1,9 @@
-# Copyright (c) 2021 Bill Chen.
+# Copyright (c) 2021 Bill Chen
 # License: MIT (https://opensource.org/licenses/MIT)
 
 
 # Part of this file is based on the illustris_python project:
-# Copyright (c) 2017, illustris & illustris_python developers.
+# Copyright (c) 2017, illustris & illustris_python developers
 # License: FreeBSD (https://opensource.org/licenses/BSD-2-Clause)
 
 import numpy

@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Bill Chen.
+# Copyright (c) 2021 Bill Chen
 # License: MIT (https://opensource.org/licenses/MIT)
 
 import numpy
