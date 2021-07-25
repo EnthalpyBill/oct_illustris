@@ -1,9 +1,14 @@
+# -*- coding: utf-8 -*-
 # Copyright (c) 2021 Bill Chen
 # License: MIT (https://opensource.org/licenses/MIT)
-
+# 
 # Part of this file is based on the illustris_python project:
 # Copyright (c) 2017, illustris & illustris_python developers
 # License: FreeBSD (https://opensource.org/licenses/BSD-2-Clause)
+
+"""
+The il_util module defines some commonly used functions for Illustris.
+"""
 
 import numpy as np
 import h5py
@@ -11,8 +16,22 @@ import h5py
 __all__ = ["loadFile", "partTypeNum", "snapPath", "getNumPart"]
 
 def loadFile(fn, partType, fields=None, mdi=None, float32=True, index=None):
-    """ Load a subset of fileds for all particles/cells of a given partType
-        in one file. """
+    """
+    Load a subset of particles/cells in one chunk file. 
+    This function applies numpy.memmap to minimize memory usage.
+
+    Args:
+        fn (str): File name to be loaded.
+        partType (str or list of str): Particle types to be loaded.
+        fields (str or list of str): Particle fields to be loaded.
+        mdi (None or list of int, default to None): sub-indeces to be 
+            loaded. None to load all.
+        float32 (bool, default to False): Whether to use float32 or not.
+        index (list of list of int): List of Fancy indices for slicing.
+
+    Returns:
+        dict: Entire or subset of data, depending on whether index == None.
+    """
 
     # Make sure fields is not a single element
     if isinstance(fields, str):
@@ -63,8 +82,17 @@ def loadFile(fn, partType, fields=None, mdi=None, float32=True, index=None):
     return result
 
 def partTypeNum(partType):
-    """ Mapping between common names and numeric particle types. """
-    if str(partType).isdigit():
+    """
+    Map common names to numeric particle types.
+
+    Args:
+        partType (str): Common names of particle type.
+
+    Returns:
+        int: Numeric particle type.
+    """
+
+    if str(partType[-1]).isdigit():
         return int(partType)
         
     if str(partType).lower() in ["gas","cells"]:
@@ -80,16 +108,38 @@ def partTypeNum(partType):
     if str(partType).lower() in ["bh","bhs","blackhole","blackholes"]:
         return 5
     
-    raise Exception("Unknown particle type name.")
+    raise ValueError("Unknown particle type name.")
 
 def snapPath(basePath, snapNum, chunkNum=0):
-    """ Return absolute path to a snapshot HDF5 file (modify as needed). """
+    """
+    Return path to a chunk file of snapshot.
+
+    Args:
+        basePath (str): Base path of the simulation data. This path usually 
+            ends with "output".
+        snapNum (int): Number of the snapshot.
+        chunkNum (int, default to 0): Number of the chunk.
+
+    Returns:
+        str: Path to a chunk file.
+    """
+
     snapPath = basePath + "/snapdir_%03d/"%(snapNum)
     filePath = snapPath + "snap_%03d.%d.hdf5"%(snapNum, chunkNum)
+
     return filePath
 
 def getNumPart(header):
-    """ Calculate number of particles of all types given a snapshot header. """
+    """
+    Calculate number of particles of all types given a snapshot header.
+
+    Args:
+        header (h5py.Group): header of the snapshot.
+
+    Returns:
+        numpy.ndarray of int: Number of particles of each type.
+    """
+
     nTypes = 6
 
     nPart = np.zeros(nTypes, dtype="i4")
