@@ -7,7 +7,7 @@
 # License: FreeBSD (https://opensource.org/licenses/BSD-2-Clause)
 
 """
-The loader module defines a convenient load() function to load snapshots in 
+loader module defines a convenient load() function to load snapshots in 
 Illustris or IllustrisTNG
 """
 
@@ -21,7 +21,7 @@ __all__ = ["load"]
 
 def load(basePath, snapNum, partType, depth=8, index_path=None):
     """
-    The function to load snapshots in Illustris or IllustrisTNG.
+    Function to load snapshots in Illustris or IllustrisTNG.
 
     Args:
         basePath (str): Base path of the simulation data. This path usually 
