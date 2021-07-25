@@ -1,10 +1,15 @@
+# -*- coding: utf-8 -*-
 # Copyright (c) 2021 Bill Chen
 # License: MIT (https://opensource.org/licenses/MIT)
-
-
+# 
 # Part of this file is based on the illustris_python project:
 # Copyright (c) 2017, illustris & illustris_python developers
 # License: FreeBSD (https://opensource.org/licenses/BSD-2-Clause)
+
+"""
+The loader module defines a convenient load() function to load snapshots in 
+Illustris or IllustrisTNG
+"""
 
 import numpy as np
 import h5py
@@ -15,6 +20,19 @@ from .il_util import partTypeNum, snapPath, getNumPart
 __all__ = ["load"]
 
 def load(basePath, snapNum, partType, depth=8, index_path=None):
+    """
+    The function to load snapshots in Illustris or IllustrisTNG.
+
+    Args:
+        basePath (str): Base path of the simulation data. This path usually 
+            ends with "output".
+        partType (str or list of str): Particle types to be loaded.
+        depth (int, default to 8): Depth of mesh. For example, depth = 8
+            corresponds to the mesh dimension of (2^8, 2^8, 2^8).
+        index_path (str): Path to store the index files. None to store 
+            with the data.
+    """
+
     # Determine number of chunks
     with h5py.File(snapPath(basePath, snapNum), "r") as f:
         n_chunk = f["Header"].attrs["NumFilesPerSnapshot"]
