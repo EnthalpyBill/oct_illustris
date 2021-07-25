@@ -1,5 +1,10 @@
+# -*- coding: utf-8 -*-
 # Copyright (c) 2021 Bill Chen
 # License: MIT (https://opensource.org/licenses/MIT)
+
+"""
+The core codes of the mesh_illustris package.
+"""
 
 import os
 import numpy as np
@@ -11,21 +16,47 @@ from .mesh import mesh
 __all__ = ["dataset", "singleDataset"]
 
 class dataset(object):
-    """docstring for dataset"""
+    """The dataset class stores a snapshot of simulation."""
+
     def __init__(self, datasets, n_chunk):
+        """
+        Args:
+            datasets (list of singleDataset): Chunks that store the 
+                snapshot of simulation. 
+            n_chunk (int): Number of chunks
+        """
+
         super(dataset, self).__init__()
         self._datasets = datasets
         self._n_chunk = n_chunk
 
     @property
     def datasets(self):
+        """list of singleDataset: Chunks that store the snapshot 
+            of simulation."""
         return self._datasets
 
     @property
     def n_chunk(self):
+        """int: Number of chunks."""
         return self._n_chunk
 
-    def _combine(self, func, partType, fields, mdi=None, float32=False, **kwargs):
+    def _combine(self, func, partType, fields, mdi=None, 
+        float32=False, **kwargs):
+        """
+        Combine subsets (e.g., a box or sphere) of data in different chunks 
+        into one subset.
+
+        Args:
+            func (str): Types of subset, must be "box" or "sphere". This 
+                argument determines the slicing method.
+            partType (str or list of str): Particle types to be loaded.
+            fields (str or list of str): Particle fields to be loaded.
+            mdi (None or list of int, default to None): sub-indeces to be 
+                loaded. None to load all.
+            float32 (bool, default to False): Whether to use float32 or not.
+            **kwargs: arguments to be sent to slicing function.
+        """
 
         # Make sure fields is not a single element
         if isinstance(fields, str):
@@ -42,6 +73,8 @@ class dataset(object):
             elif func == "sphere":
                 r = d.sphere(kwargs["center"], kwargs["radius"], 
                     partType, fields, mdi, float32)
+            else:
+                raise ValueError("func must be either \"box\" or \"sphere\"!")
 
             if j == 0:
                 result = r
@@ -64,18 +97,53 @@ class dataset(object):
         return result
     
     def box(self, boundary, partType, fields, mdi=None, float32=False):
+        """
+        Load a sub-box of data.
+
+        Args:
+            boundary (numpy.ndarray of scalar): Boundary of the box, with 
+                shape of (3, 2).
+            partType (str or list of str): Particle types to be loaded.
+            fields (str or list of str): Particle fields to be loaded.
+            mdi (None or list of int, default to None): sub-indeces to be 
+                loaded. None to load all.
+            float32 (bool, default to False): Whether to use float32 or not.
+        """
         return self._combine("box", partType, fields, mdi, float32, 
             boundary=boundary)
 
-    def sphere(self, center, radius, partType, fields, mdi=None, float32=False):
+    def sphere(self, center, radius, partType, fields, mdi=None, 
+        float32=False):
+        """
+        load a sub-sphere of data.
+
+        Args:
+            center (numpy.ndarray of scalar): Center of the sphere, with 
+                shape of (3,).
+            radius (scalar): Radius of the sphere.
+            partType (str or list of str): Particle types to be loaded.
+            fields (str or list of str): Particle fields to be loaded.
+            mdi (None or list of int, default to None): sub-indeces to be 
+                loaded. None to load all.
+            float32 (bool, default to False): Whether to use float32 or not.
+        """
         return self._combine("sphere", partType, fields, mdi, float32, 
             center=center, radius=radius)
-
-    
         
 class singleDataset(object):
-    """docstring for dataset"""
+    """The singleDataset class stores a chunck of snapshot."""
+
     def __init__(self, fn, partType, depth=8, index_path=None):
+        """
+        Args:
+            fn (str): File name to be loaded.
+            partType (str or list of str): Particle types to be loaded.
+            depth (int, default to 8): Depth of mesh. For example, depth = 8
+                corresponds to the mesh dimension of (2^8, 2^8, 2^8).
+            index_path (str): Path to store the index files. None to store 
+                with the data.
+        """
+
         super(singleDataset, self).__init__()
 
         self._fn = fn
@@ -87,13 +155,12 @@ class singleDataset(object):
 
         self._depth = depth
 
-        self._pt_idx = 0
-
+        pt_idx = 0
         for p in partType:
-            self._pt_idx += 2**partTypeNum(p)
+            pt_idx += 2**partTypeNum(p)
 
         self._index_path = index_path
-        suffix = ".idx_d%02d_pt%02d.h5"%(depth, self._pt_idx)
+        suffix = ".idx_d%02d_pt%02d.h5"%(depth, pt_idx)
         if index_path:
             self._index_fn = index_path + fn[fn.rfind("/"):] + suffix
         else:
@@ -121,22 +188,28 @@ class singleDataset(object):
 
     @property
     def fn(self):
+        """str: File name to be loaded."""
         return self._fn
 
     @property
     def partType(self):
+        """str or list of str: Particle types to be loaded."""
         return self._partType
 
     @property
     def box_size(self):
+        """scalar: Box size of the simulation."""
         return self._box_size
 
     @property
     def redshift(self):
+        """scalar: Redshift of the current snapshot."""
         return self._redshift
 
     @property
     def index(self):
+        """dict: Newly generated or cached index of the dataset. """
+
         if self._index:
             return self._index
 
@@ -194,6 +267,23 @@ class singleDataset(object):
 
     def box(self, boundary, partType, fields, mdi=None, float32=True, 
         method="outer"):
+        """
+        The slicing method to load a sub-box of data.
+
+        Note: The current version only support loading the outer or inner 
+            box of the sub-box. Loading the exact sub-box is not supported.
+
+        Args:
+            boundary (numpy.ndarray of scalar): Boundary of the box, with 
+                shape of (3, 2).
+            partType (str or list of str): Particle types to be loaded.
+            fields (str or list of str): Particle fields to be loaded.
+            mdi (None or list of int, default to None): sub-indeces to be 
+                loaded. None to load all.
+            float32 (bool, default to False): Whether to use float32 or not.
+            method (str, default to "outer"): How to load the box, must be 
+                "outer" or "exact" or "inner".
+        """
 
         # Make sure fields is not a single element
         if isinstance(fields, str):
@@ -243,5 +333,23 @@ class singleDataset(object):
         return loadFile(self._fn, partType, fields, mdi, float32, targets)
 
 
-    def sphere(self, center, radius, partType, fields, mdi=None, method="outer"):
+    def sphere(self, center, radius, partType, fields, mdi=None, 
+        method="outer"):
+        """
+        The slicing method to load a sub-sphere of data.
+
+        Note: This function is not supported in the current version
+
+        Args:
+            center (numpy.ndarray of scalar): Center of the sphere, with 
+                shape of (3,).
+            radius (scalar): Radius of the sphere.
+            partType (str or list of str): Particle types to be loaded.
+            fields (str or list of str): Particle fields to be loaded.
+            mdi (None or list of int, default to None): sub-indeces to be 
+                loaded. None to load all.
+            float32 (bool, default to False): Whether to use float32 or not.
+            method (str, default to "outer"): How to load the box, must be 
+                "outer" or "exact" or "inner".
+        """
         pass
