@@ -26,11 +26,15 @@ def load(basePath, snapNum, partType, depth=8, index_path=None):
     Args:
         basePath (str): Base path of the simulation data. This path usually 
             ends with "output".
+        snapNum (int): Number of the snapshot.
         partType (str or list of str): Particle types to be loaded.
         depth (int, default to 8): Depth of mesh. For example, depth = 8
             corresponds to the mesh dimension of (2^8, 2^8, 2^8).
         index_path (str): Path to store the index files. None to store 
             with the data.
+
+    Returns:
+        `dataset`: Structured data.
     """
 
     # Determine number of chunks
