@@ -56,6 +56,9 @@ class dataset(object):
                 loaded. None to load all.
             float32 (bool, default to False): Whether to use float32 or not.
             **kwargs: arguments to be sent to slicing function.
+
+        Returns:
+            dict: Subset of data.
         """
 
         # Make sure fields is not a single element
@@ -108,6 +111,9 @@ class dataset(object):
             mdi (None or list of int, default to None): sub-indeces to be 
                 loaded. None to load all.
             float32 (bool, default to False): Whether to use float32 or not.
+
+        Returns:
+            dict: Sub-box of data.
         """
         return self._combine("box", partType, fields, mdi, float32, 
             boundary=boundary)
@@ -115,7 +121,7 @@ class dataset(object):
     def sphere(self, center, radius, partType, fields, mdi=None, 
         float32=False):
         """
-        load a sub-sphere of data.
+        Load a sub-sphere of data.
 
         Args:
             center (numpy.ndarray of scalar): Center of the sphere, with 
@@ -126,6 +132,9 @@ class dataset(object):
             mdi (None or list of int, default to None): sub-indeces to be 
                 loaded. None to load all.
             float32 (bool, default to False): Whether to use float32 or not.
+
+        Returns:
+            dict: Sub-sphere of data.
         """
         return self._combine("sphere", partType, fields, mdi, float32, 
             center=center, radius=radius)
@@ -283,6 +292,9 @@ class singleDataset(object):
             float32 (bool, default to False): Whether to use float32 or not.
             method (str, default to "outer"): How to load the box, must be 
                 "outer" or "exact" or "inner".
+
+        Returns:
+            dict: Sub-box of data.
         """
 
         # Make sure fields is not a single element
