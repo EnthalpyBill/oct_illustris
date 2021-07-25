@@ -1,4 +1,6 @@
-# Licensed under MIT License - see LICENSE
+# -*- coding: utf-8 -*-
+# Copyright (c) 2021 Bill Chen
+# License: MIT (https://opensource.org/licenses/MIT)
 
 from setuptools import setup, find_packages
 
