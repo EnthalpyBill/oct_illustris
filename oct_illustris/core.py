@@ -245,7 +245,7 @@ class singleDataset(object):
             #         t2 += time() - t1
 
             t1 = time()
-            mark_3d = self._index["mark"].reshape(
+            mark_3d = self._index[gName]["mark"].reshape(
                 2**self._depth, 2**self._depth, 2**self._depth)
             target = self._index[gName]["index"][mark_3d[
                 lower[2]:upper[2], 
