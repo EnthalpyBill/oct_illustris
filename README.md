@@ -53,30 +53,29 @@ The `-e` command allows you to make changes to the code.
 
 To use the package, just import it as
 ```python
->>> import mesh_illustris as oi
+>>> import mesh_illustris as mi
 ```
 To start with, let's load the last snapshot of `Illustris-3`:
 ```python
 >>> base = "/your/base/path/output/snapdir_099/snap_099.0.hdf5"
 >>> partType = ["dm", "gas", "stars"]
->>> d = oi.load(base, partType=partType)
+>>> d = mi.load(base, partType=partType)
 ```
 Now, a `dataset` object is created. Let's load a 100 kpc/h sphere centered at the center of simulation box:
 ```python
 >>> fields = ["Coordinates", "Masses"]
->>> data = d.sphere("c", r=100, partType=partType, fields=fields)
+>>> data = d.box("c", r=100, partType=partType, fields=fields)
 ```
-The method `sphere()` automatically calls the `d.index` command to start a pre-indexing process if it has not been done before. Once the pre-indexing is complete, an index file will be created at `base`. It may take time to generate this index file, but once generated, `mesh_illustris` will skip pre-indexing when `d.index` is called again. If you want to save the index file to a different location, just specify the location to `oi.load()` with the argument `index_fn`.
+The method `box()` automatically start a pre-indexing process if it has not been done before. Once the pre-indexing is complete, several index files will be created at `base`. It may take time to generate such files, but once generated, `mesh_illustris` will skip pre-indexing for the next time. If you want to save the index file to a different location, just specify the path to `load()` with the argument `index_path`.
 
-`data` is a dict storing the required fields of particles of different types. An important goal of `mesh_illustris` is to keep consistancy with the original data, so that you can easily play with `data` without changing your original code. For example, lets make a projection plot along the z-axis for the 100 kpc/h sphere:
+`data` is a dict storing the required fields of particles of different types. An important goal of `mesh_illustris` is to keep consistancy with the original data, so that you can easily play with `data` with a little change your original code. For example, lets make a projection plot along the z-axis for the 100 kpc/h sphere:
 ```python
 >>> import matplotlib.pyplot as plt
->>> x = data["Coordinates"][:,0]
->>> y = data["Coordinates"][:,1]
->>> m = data["Masses"]
+>>> x = data["gas"]["Coordinates"][:,0]
+>>> y = data["gas"]["Coordinates"][:,1]
+>>> m = data["gas"]["Masses"]
 >>> plt.hist2d(x, y, weights=m)
 ```
-The output plot looks like this:
 
 ## Contribute
 
