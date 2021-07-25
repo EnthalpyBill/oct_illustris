@@ -224,6 +224,7 @@ class singleDataset(object):
         # Use for loop here assuming the box is small
         t2 = 0
         for p in partType:
+            t1 = time()
             ptNum = partTypeNum(p)
             gName = "PartType%d"%(ptNum)
 
@@ -240,12 +241,11 @@ class singleDataset(object):
                         target = (np.r_[target, 
                             self._index[gName]["index"][start:end]])
 
-            t1 = time()
             target.sort()
-            t2 += time() - t1
             targets.append(target)
+            t2 += time() - t1
 
-        print('time for sorting:', t2)
+        print('time for linking:', t2)
         print('time for indexing:', time()-t0)
 
         return loadFile(self._fn, partType, fields, mdi, float32, targets)
