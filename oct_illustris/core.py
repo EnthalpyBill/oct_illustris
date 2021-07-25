@@ -232,10 +232,10 @@ class singleDataset(object):
                 for j in range(lower[1], upper[1]):
                     idx_3d_lower = [i, j, lower[2]]
                     idx_1d_lower = np.sum(np.left_shift(
-                        idx_3d, [2*self._depth,self._depth,0]))
+                        idx_3d_lower, [2*self._depth,self._depth,0]))
                     idx_3d_upper = [i, j, upper[2]]
                     idx_1d_upper = np.sum(np.left_shift(
-                        idx_3d, [2*self._depth,self._depth,0]))
+                        idx_3d_upper, [2*self._depth,self._depth,0]))
 
                     t1 = time()
                     start = self._index[gName]["mark"][idx_1d_lower]
