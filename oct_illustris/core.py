@@ -26,6 +26,7 @@ class dataset(object):
         return self._n_chunk
 
     def _combine(self, func, partType, fields, mdi=None, float32=False, **kwargs):
+        from time import time
 
         # Make sure fields is not a single element
         if isinstance(fields, str):
@@ -43,6 +44,7 @@ class dataset(object):
                 r = d.sphere(kwargs["center"], kwargs["radius"], 
                     partType, fields, mdi, float32)
 
+            t0 = time()
             if j == 0:
                 result = r
             else:
@@ -61,6 +63,7 @@ class dataset(object):
                             result[gName][field] = (np.r_[result[gName][field], 
                                 r[gName][field][:,mdi[i]]])
 
+            print('time for combine:', time()-t0)
         return result
     
     def box(self, boundary, partType, fields, mdi=None, float32=False):
@@ -195,6 +198,9 @@ class singleDataset(object):
     def box(self, boundary, partType, fields, mdi=None, float32=True, 
         method="outer"):
 
+        from time import time
+        t0 = time()
+
         # Make sure fields is not a single element
         if isinstance(fields, str):
             fields = [fields]
@@ -238,6 +244,8 @@ class singleDataset(object):
 
             target.sort()
             targets.append(target)
+
+        print('time for indexing:', time()-t0)
 
         return loadFile(self._fn, partType, fields, mdi, float32, targets)
 
