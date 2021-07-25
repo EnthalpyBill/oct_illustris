@@ -3,13 +3,13 @@
 
 import numpy as np
 
-__all__ = ["octree"]
+__all__ = ["mesh"]
 
-class octree(object):
-	"""docstring for octree"""
+class mesh(object):
+	"""docstring for mesh"""
 
 	def __init__(self, pos, length, offset, boundary, depth):
-		super(octree, self).__init__()
+		super(mesh, self).__init__()
 
 		self._pos = pos
 		self._length = length
@@ -23,7 +23,7 @@ class octree(object):
 		else:
 			self._int_data = np.int64
 
-		# Set the int type for octree
+		# Set the int type for mesh
 		if depth <= 10:
 			# By setting dtype to int32, the maximum level is 10
 			self._int_tree = np.int32
@@ -31,7 +31,7 @@ class octree(object):
 			# By setting dtype to int64, the maximum level is 20
 			self._int_tree = np.int64
 		else:
-			raise ValueError("The depth of octree must be no more than 20!")
+			raise ValueError("The depth of mesh must be no more than 20!")
 
 
 	@property

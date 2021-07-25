@@ -1,9 +1,9 @@
-# `mesh_illustris`: Octree for Illustris
+# `mesh_illustris`: Load Illustris with mesh
 
 [![version](https://img.shields.io/badge/version-v0.0.dev-brightgreen.svg?style=flat)](https://github.com/EnthalpyBill/mesh_illustris)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 
-`mesh_illustris` is a toolkit for analyzing [`Illustris`](https://www.illustris-project.org/) (and also [`IllustrisTNG`](https://www.tng-project.org/)) data with octree. The goal of `mesh_illustris` is to **quickly** load a subset (e.g., a box or sphere) of particles/cells with **minimal** amount of memory.
+`mesh_illustris` is a toolkit for analyzing [`Illustris`](https://www.illustris-project.org/) (and also [`IllustrisTNG`](https://www.tng-project.org/)) data with mesh. The goal of `mesh_illustris` is to **quickly** load a subset (e.g., a box or sphere) of particles/cells with **minimal** amount of memory.
 
 ## Table of Contents
 

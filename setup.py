@@ -6,14 +6,14 @@ with open("README.md", "r") as f:
     long_description = f.read()
 
 setup(
-    name = 'oct_illustris',
+    name = 'mesh_illustris',
     packages = find_packages(),
     version = '0.0.dev',
     url = "https://github.com/EnthalpyBill/oct_illustris",
     license = "MIT",
     author = "Bill Chen <ybchen@umich.edu>",
     maintainer = "Bill Chen <ybchen@umich.edu>",
-    description = "A toolkit to quickly load Illustris with minimal cost.",
+    description = "Load Illustris with mesh.",
     long_description = long_description,
     long_description_content_type = "text/markdown",
     install_requires = ["numpy>=1.18", "h5py>=2.10"],

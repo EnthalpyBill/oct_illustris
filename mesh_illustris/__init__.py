@@ -11,5 +11,5 @@ from .loader import *
 from .octree import *
 
 __version__ = "0.0.dev"
-__name__ = "oct_illustris"
+__name__ = "mesh_illustris"
 __author__ = ["Bill Chen"]
