@@ -52,21 +52,16 @@ class octree(object):
 
 		# Sort rank with index
 		idx = np.argsort(idx_1d)
-
 		idx_all = np.arange(8**self._depth, dtype=self._int_tree)
-		# mark = np.zeros(8**self._depth+1, dtype=self._int_data)
-		mark_3d = np.zeros(
-			(2**self._depth+1, 2**self._depth+1, 2**self._depth+1), 
-			dtype=self._int_data)
-		# mark[1:] = np.searchsorted(idx_1d, idx_all, side="right", sorter=idx)
-		mark_3d[1:,1:,1:] = np.searchsorted(
-			idx_1d, idx_all, side="right", sorter=idx).reshape(
-			2**self._depth, 2**self._depth, 2**self._depth)
+
+		mark = np.zeros(8**self._depth+1, dtype=self._int_data)
+		mark[1:] = np.searchsorted(idx_1d, idx_all, side="right", sorter=idx)
 
 		rank = np.arange(self._offset, self._offset+self._length, 
 			dtype=self._int_data)
 		rank = rank[idx]
-		return rank, mark_3d
+
+		return rank, mark
 
 
 	
