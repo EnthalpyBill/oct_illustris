@@ -230,17 +230,19 @@ class singleDataset(object):
             target = np.array([], dtype=self._int_data)
             for i in range(lower[0], upper[0]):
                 for j in range(lower[1], upper[1]):
-                    for k in range(lower[2], upper[2]):
-                        idx_3d = [i, j, k]
-                        idx_1d = np.sum(np.left_shift(
-                            idx_3d, [2*self._depth,self._depth,0]))
+                    idx_3d_lower = [i, j, lower[2]]
+                    idx_1d_lower = np.sum(np.left_shift(
+                        idx_3d, [2*self._depth,self._depth,0]))
+                    idx_3d_upper = [i, j, upper[2]]
+                    idx_1d_upper = np.sum(np.left_shift(
+                        idx_3d, [2*self._depth,self._depth,0]))
 
-                        t1 = time()
-                        start = self._index[gName]["mark"][idx_1d]
-                        end = self._index[gName]["mark"][idx_1d+1]
-                        target = (np.r_[target, 
-                            self._index[gName]["index"][start:end]])
-                        t2 += time() - t1
+                    t1 = time()
+                    start = self._index[gName]["mark"][idx_1d_lower]
+                    end = self._index[gName]["mark"][idx_1d_upper]
+                    target = (np.r_[target, 
+                        self._index[gName]["index"][start:end]])
+                    t2 += time() - t1
 
             target.sort()
             targets.append(target)
