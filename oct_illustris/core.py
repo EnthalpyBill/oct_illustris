@@ -227,22 +227,31 @@ class singleDataset(object):
             ptNum = partTypeNum(p)
             gName = "PartType%d"%(ptNum)
 
-            target = np.array([], dtype=self._int_data)
-            for i in range(lower[0], upper[0]):
-                for j in range(lower[1], upper[1]):
-                    idx_3d_lower = [i, j, lower[2]]
-                    idx_1d_lower = np.sum(np.left_shift(
-                        idx_3d_lower, [2*self._depth,self._depth,0]))
-                    idx_3d_upper = [i, j, upper[2]]
-                    idx_1d_upper = np.sum(np.left_shift(
-                        idx_3d_upper, [2*self._depth,self._depth,0]))
+            # target = np.array([], dtype=self._int_data)
+            # for i in range(lower[0], upper[0]):
+            #     for j in range(lower[1], upper[1]):
+            #         idx_3d_lower = [i, j, lower[2]]
+            #         idx_1d_lower = np.sum(np.left_shift(
+            #             idx_3d_lower, [2*self._depth,self._depth,0]))
+            #         idx_3d_upper = [i, j, upper[2]]
+            #         idx_1d_upper = np.sum(np.left_shift(
+            #             idx_3d_upper, [2*self._depth,self._depth,0]))
 
-                    t1 = time()
-                    start = self._index[gName]["mark"][idx_1d_lower]
-                    end = self._index[gName]["mark"][idx_1d_upper]
-                    target = (np.r_[target, 
-                        self._index[gName]["index"][start:end]])
-                    t2 += time() - t1
+            #         t1 = time()
+            #         start = self._index[gName]["mark"][idx_1d_lower]
+            #         end = self._index[gName]["mark"][idx_1d_upper]
+            #         target = (np.r_[target, 
+            #             self._index[gName]["index"][start:end]])
+            #         t2 += time() - t1
+
+            t1 = time()
+            mark_3d = self._index["mark"].reshape(
+                2**self._depth, 2**self._depth, 2**self._depth)
+            target = self._index[gName]["index"][mark_3d[
+                lower[2]:upper[2], 
+                lower[1]:upper[1], 
+                lower[0]:upper[0]].flatten()]
+            t2 += time() - t1
 
             target.sort()
             targets.append(target)
