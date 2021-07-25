@@ -6,7 +6,7 @@ import numpy as np
 import h5py
 
 from .il_util import *
-from .octree import octree
+from .mesh import mesh
 
 __all__ = ["dataset", "singleDataset"]
 
@@ -106,7 +106,7 @@ class singleDataset(object):
             self._boundary = np.array([[0., 0., 0.],
                 [self._box_size, self._box_size, self._box_size]])
 
-        # Set the int type for octree
+        # Set the int type for mesh
         if depth <= 10:
             # By setting dtype to int32, the maximum level is 10
             self._int_tree = np.int32
@@ -114,7 +114,7 @@ class singleDataset(object):
             # By setting dtype to int64, the maximum level is 20
             self._int_tree = np.int64
         else:
-            raise ValueError("The depth of octree must be no more than 20!")
+            raise ValueError("The depth of mesh must be no more than 20!")
 
         # Set the int type for data
         self._int_data = np.int64
@@ -182,7 +182,7 @@ class singleDataset(object):
                     self._int_data = np.int64
 
                 pos = data[gName]["Coordinates"]
-                ot = octree(pos, length, 0, self._boundary, self._depth)
+                ot = mesh(pos, length, 0, self._boundary, self._depth)
 
                 self._index[gName]["index"], self._index[gName]["mark"] = ot.build()
                 grp.create_dataset("index", 
