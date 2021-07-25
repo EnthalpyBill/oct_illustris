@@ -10,6 +10,6 @@ from .il_util import *
 from .loader import *
 from .mesh import *
 
-__version__ = "0.0.dev"
+__version__ = "0.1"
 __name__ = "mesh_illustris"
 __author__ = ["Bill Chen"]

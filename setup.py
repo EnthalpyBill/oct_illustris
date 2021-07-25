@@ -10,7 +10,7 @@ with open("README.md", "r") as f:
 setup(
     name = 'mesh_illustris',
     packages = find_packages(),
-    version = '0.0.dev',
+    version = '0.1',
     url = "https://github.com/EnthalpyBill/oct_illustris",
     license = "MIT",
     author = "Bill Chen <ybchen@umich.edu>",

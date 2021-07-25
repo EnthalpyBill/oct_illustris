@@ -1,6 +1,6 @@
 # `mesh_illustris`: Load Illustris with mesh
 
-[![version](https://img.shields.io/badge/version-v0.0.dev-brightgreen.svg?style=flat)](https://github.com/EnthalpyBill/mesh_illustris)
+[![version](https://img.shields.io/badge/version-v0.1-brightgreen.svg?style=flat)](https://github.com/EnthalpyBill/mesh_illustris)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 
 `mesh_illustris` is a toolkit for analyzing [`Illustris`](https://www.illustris-project.org/) (and also [`IllustrisTNG`](https://www.tng-project.org/)) data with mesh. The goal of `mesh_illustris` is to **quickly** load a subset (e.g., a box or sphere) of particles/cells with **minimal** amount of memory.
@@ -61,21 +61,22 @@ To start with, let's load the last snapshot of `Illustris-3`:
 >>> partType = ["dm", "gas", "stars"]
 >>> d = mi.load(base, partType=partType)
 ```
-Now, a `dataset` object is created. Let's load a 100 kpc/h sphere centered at the center of simulation box:
+Now, a `dataset` object is created. Let's load a 100 kpc/h box in the simulation:
 ```python
+>>> boundary = np.array([[0,0,0],[100,100,100]])
 >>> fields = ["Coordinates", "Masses"]
->>> data = d.box("c", r=100, partType=partType, fields=fields)
+>>> data = d.box("c", boundary=boundary, partType=partType, fields=fields)
 ```
 The method `box()` automatically start a pre-indexing process if it has not been done before. Once the pre-indexing is complete, several index files will be created at `base`. It may take time to generate such files, but once generated, `mesh_illustris` will skip pre-indexing for the next time. If you want to save the index file to a different location, just specify the path to `load()` with the argument `index_path`.
 
-`data` is a dict storing the required fields of particles of different types. An important goal of `mesh_illustris` is to keep consistancy with the original data, so that you can easily play with `data` with a little change your original code. For example, lets make a projection plot along the z-axis for the 100 kpc/h sphere:
+<!-- `data` is a dict storing the required fields of particles of different types. An important goal of `mesh_illustris` is to keep consistancy with the original data, so that you can easily play with `data` with a little change your original code. For example, lets make a projection plot along the z-axis for the 100 kpc/h sphere:
 ```python
 >>> import matplotlib.pyplot as plt
 >>> x = data["gas"]["Coordinates"][:,0]
 >>> y = data["gas"]["Coordinates"][:,1]
 >>> m = data["gas"]["Masses"]
 >>> plt.hist2d(x, y, weights=m)
-```
+``` -->
 
 ## Contribute
 
