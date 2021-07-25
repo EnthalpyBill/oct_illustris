@@ -42,7 +42,12 @@ def loadFile(fn, partType, fields=None, mdi=None, float32=True, index=None):
                 result[gName][field] = np.zeros(shape, dtype=dtype)
 
                 # read data local to the current file
-                to_load = f[gName][field][:]
+                ds = f[gName][field]
+                offset = ds.id.get_offset()
+                dtype = ds.dtype
+                shape = ds.shape
+                to_load = np.memmap(fn, mode='r', shape=shape, offset=offset, 
+                    dtype=dtype)
                 if index:
                     if mdi is None or mdi[i] is None:
                         result[gName][field] = to_load[index[i]]
