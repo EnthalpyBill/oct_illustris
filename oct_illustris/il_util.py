@@ -55,7 +55,7 @@ def loadFile(fn, partType, fields=None, mdi=None, float32=True, index=None):
                         result[gName][field] = to_load[index[i],mdi[i]]
                 else:
                     if mdi is None or mdi[i] is None:
-                        result[gName][field] = to_load
+                        result[gName][field] = to_load[:]
                     else:
                         result[gName][field] = to_load[:,mdi[i]]
 
