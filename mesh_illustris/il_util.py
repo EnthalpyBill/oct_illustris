@@ -7,7 +7,7 @@
 # License: FreeBSD (https://opensource.org/licenses/BSD-2-Clause)
 
 """
-The il_util module defines some commonly used functions for Illustris.
+il_util module defines some commonly used functions for Illustris.
 """
 
 import numpy as np

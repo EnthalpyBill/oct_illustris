@@ -3,7 +3,7 @@
 # License: MIT (https://opensource.org/licenses/MIT)
 
 """
-The core codes of the mesh_illustris package.
+core codes of the mesh_illustris package.
 """
 
 import os
@@ -16,7 +16,7 @@ from .mesh import mesh
 __all__ = ["dataset", "singleDataset"]
 
 class dataset(object):
-    """The dataset class stores a snapshot of simulation."""
+    """dataset class stores a snapshot of simulation."""
 
     def __init__(self, datasets, n_chunk):
         """
@@ -140,7 +140,7 @@ class dataset(object):
             center=center, radius=radius)
         
 class singleDataset(object):
-    """The singleDataset class stores a chunck of snapshot."""
+    """singleDataset class stores a chunck of snapshot."""
 
     def __init__(self, fn, partType, depth=8, index_path=None):
         """
@@ -277,7 +277,7 @@ class singleDataset(object):
     def box(self, boundary, partType, fields, mdi=None, float32=True, 
         method="outer"):
         """
-        The slicing method to load a sub-box of data.
+        Slicing method to load a sub-box of data.
 
         Note: The current version only support loading the outer or inner 
             box of the sub-box. Loading the exact sub-box is not supported.
@@ -348,7 +348,7 @@ class singleDataset(object):
     def sphere(self, center, radius, partType, fields, mdi=None, 
         method="outer"):
         """
-        The slicing method to load a sub-sphere of data.
+        Slicing method to load a sub-sphere of data.
 
         Note: This function is not supported in the current version
 
