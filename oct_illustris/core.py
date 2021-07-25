@@ -247,7 +247,11 @@ class singleDataset(object):
 
         print('time for indexing:', time()-t0)
 
-        return loadFile(self._fn, partType, fields, mdi, float32, targets)
+        t0 = time()
+        result = loadFile(self._fn, partType, fields, mdi, float32, targets)
+        print('time for loading:', time()-t0)
+
+        return result
 
 
     def sphere(self, center, radius, partType, fields, mdi=None, method="outer"):
