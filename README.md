@@ -2,7 +2,7 @@
 
 [![version](https://img.shields.io/badge/version-v0.1.dev-brightgreen.svg?style=flat)](https://github.com/EnthalpyBill/mesh_illustris)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
-[![doc](https://readthedocs.org/projects/dendrogram/badge/?version=latest)](https://dendrogram.readthedocs.io)
+[![doc](https://readthedocs.org/projects/mesh-illustris/badge/?version=latest)](https://mesh-illustris.readthedocs.io)
 
 `mesh_illustris` is a toolkit for analyzing [`Illustris`](https://www.illustris-project.org/) (and also [`IllustrisTNG`](https://www.tng-project.org/)) data with mesh. The goal of `mesh_illustris` is to **quickly** load a subset (e.g., a box or sphere) of particles/cells with **minimal** amount of memory.
 
