@@ -1,6 +1,6 @@
 # `mesh_illustris`: Load Illustris with mesh
 
-[![version](https://img.shields.io/badge/version-v0.1.dev-brightgreen.svg?style=flat)](https://github.com/EnthalpyBill/mesh_illustris)
+[![version](https://img.shields.io/badge/version-v0.1.1-brightgreen.svg?style=flat)](https://github.com/EnthalpyBill/mesh_illustris)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 [![doc](https://readthedocs.org/projects/mesh-illustris/badge/?version=latest)](https://mesh-illustris.readthedocs.io)
 
