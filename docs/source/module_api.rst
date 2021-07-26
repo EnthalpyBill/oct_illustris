@@ -1,3 +1,6 @@
+Module API
+==========
+
 :code:`mesh_illustris.core` module
 -----------------------------------
 

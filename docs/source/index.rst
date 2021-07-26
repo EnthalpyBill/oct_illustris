@@ -5,7 +5,7 @@ Welcome to the documentation of :code:`mesh_illustris`!
    :maxdepth: 2
    :caption: Contents:
 
-   modules
+   module_api
 
 Indices and tables
 ==================
