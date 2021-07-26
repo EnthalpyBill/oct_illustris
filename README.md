@@ -7,16 +7,6 @@
 
 `mesh_illustris` is a toolkit for analyzing [Illustris](https://www.illustris-project.org/) (and also [IllustrisTNG](https://www.tng-project.org/)) data with mesh. The goal of `mesh_illustris` is to **quickly** load a subset (e.g., a box or sphere) of particles/cells with **minimal** amount of memory. Documentation is now available at [Read the Docs](https://mesh-illustris.readthedocs.io)!
 
-## Table of Contents
-
-- [Intro](#intro)
-- [Install](#install)
-- [Usage](#usage)
-- [Contribute](#contribute)
-- [Maintainers](#maintainers)
-- [Cite](#cite)
-- [License](#license)
-
 ## Intro
 
 Illustris is a **huge** suite of simulations with the moving mesh code, [`AREPO`](https://arepo-code.org/). Illustris applies the FoF and `Subfind` algorithms to identify halos/subhalos and store particles accordingly. Therefore, we can easily load a subset of particles belonging to the same halo/subhalo. This method works for most cases but still fails when 
