@@ -1,5 +1,5 @@
 # Copyright (c) 2021 Bill Chen
-# License: MIT (https://opensource.org/licenses/MIT)
+# License: MIT (see LICENSE)
 
 from . import core, il_util, loader, mesh
 
