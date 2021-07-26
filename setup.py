@@ -12,7 +12,7 @@ setup(
     package_dir = {"": "mesh_illustris"},
     packages = find_packages(where="mesh_illustris"),
     version = '0.1.2',
-    url = "https://github.com/EnthalpyBill/oct_illustris",
+    url = "https://github.com/EnthalpyBill/mesh_illustris",
     license = "MIT",
     author = "Bill Chen <ybchen@umich.edu>",
     maintainer = "Bill Chen <ybchen@umich.edu>",
