@@ -1,7 +1,7 @@
 # `mesh_illustris`: Load Illustris with mesh
 
 [![version](https://img.shields.io/badge/version-v0.1.2-brightgreen.svg?style=flat)](https://github.com/EnthalpyBill/mesh_illustris)
-[![license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://opensource.org/licenses/MIT)
 [![doc](https://readthedocs.org/projects/mesh-illustris/badge/?version=latest)](https://mesh-illustris.readthedocs.io)
 
 `mesh_illustris` is a toolkit for analyzing [Illustris](https://www.illustris-project.org/) (and also [IllustrisTNG](https://www.tng-project.org/)) data with mesh. The goal of `mesh_illustris` is to **quickly** load a subset (e.g., a box or sphere) of particles/cells with **minimal** amount of memory. Documentation is now available at [Read the Docs](https://mesh-illustris.readthedocs.io)!
@@ -97,4 +97,4 @@ This README file is based on [Standard Readme](https://github.com/RichardLitt/st
 
 ## License
 
-`mesh_illustris` is available at [GitHub](https://github.com/EnthalpyBill/mesh_illustris) under the [MIT license](LICENSE).
+`mesh_illustris` is available at [GitHub](https://github.com/EnthalpyBill/mesh_illustris) under the [MIT license](https://opensource.org/licenses/MIT).
