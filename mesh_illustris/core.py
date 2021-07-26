@@ -178,7 +178,6 @@ class singleDataset(object):
         self._index = None
         with h5py.File(fn, 'r') as f:
             self._box_size = f['Header'].attrs['BoxSize']
-            self._redshift = f['Header'].attrs['Redshift']
             self._boundary = np.array([[0., 0., 0.],
                 [self._box_size, self._box_size, self._box_size]])
 
@@ -209,11 +208,6 @@ class singleDataset(object):
     def box_size(self):
         """scalar: Box size of the simulation."""
         return self._box_size
-
-    @property
-    def redshift(self):
-        """scalar: Redshift of the current snapshot."""
-        return self._redshift
 
     @property
     def index(self):
