@@ -11,7 +11,7 @@ import numpy as np
 import h5py
 
 from .il_util import *
-from .mesh import mesh
+from .mesh import Mesh
 
 __all__ = ["dataset", "singleDataset"]
 
@@ -147,8 +147,8 @@ class singleDataset(object):
         Args:
             fn (str): File name to be loaded.
             partType (str or list of str): Particle types to be loaded.
-            depth (int, default to 8): Depth of mesh. For example, depth = 8
-                corresponds to the mesh dimension of (2^8, 2^8, 2^8).
+            depth (int, default to 8): Depth of Mesh. For example, depth = 8
+                corresponds to the Mesh dimension of (2^8, 2^8, 2^8).
             index_path (str): Path to store the index files. None to store 
                 with the data.
         """
@@ -181,7 +181,7 @@ class singleDataset(object):
             self._boundary = np.array([[0., 0., 0.],
                 [self._box_size, self._box_size, self._box_size]])
 
-        # Set the int type for mesh
+        # Set the int type for Mesh
         if depth <= 10:
             # By setting dtype to int32, the maximum level is 10
             self._int_tree = np.int32
@@ -189,7 +189,7 @@ class singleDataset(object):
             # By setting dtype to int64, the maximum level is 20
             self._int_tree = np.int64
         else:
-            raise ValueError("The depth of mesh must be no more than 20!")
+            raise ValueError("The depth of Mesh must be no more than 20!")
 
         # Set the int type for data
         self._int_data = np.int64
@@ -258,7 +258,7 @@ class singleDataset(object):
                     self._int_data = np.int64
 
                 pos = data[gName]["Coordinates"]
-                ot = mesh(pos, length, 0, self._boundary, self._depth)
+                ot = Mesh(pos, length, 0, self._boundary, self._depth)
 
                 self._index[gName]["index"], self._index[gName]["mark"] = ot.build()
                 grp.create_dataset("index", 

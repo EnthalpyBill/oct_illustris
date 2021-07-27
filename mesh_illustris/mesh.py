@@ -3,15 +3,15 @@
 # License: MIT (see LICENSE)
 
 """
-mesh module defines the mesh to tessellate the entire volume.
+mesh module defines the Mesh to tessellate the entire volume.
 """
 
 import numpy as np
 
-__all__ = ["mesh"]
+__all__ = ["Mesh"]
 
-class mesh(object):
-    """mesh class tessellates the entire volume."""
+class Mesh(object):
+    """Mesh class tessellates the entire volume."""
 
     def __init__(self, pos, length, offset, boundary, depth):
         """
@@ -23,11 +23,11 @@ class mesh(object):
                 too many points, which need to be separated to many groups.
             boundary (numpy.ndarray of scalar): Boundary of the box, with 
                 shape of (3, 2).
-            depth (int, default to 8): Depth of mesh. For example, depth = 8
-                corresponds to the mesh dimension of (2^8, 2^8, 2^8).
+            depth (int, default to 8): Depth of Mesh. For example, depth = 8
+                corresponds to the Mesh dimension of (2^8, 2^8, 2^8).
         """
 
-        super(mesh, self).__init__()
+        super(Mesh, self).__init__()
 
         self._pos = pos
         self._length = length
@@ -41,7 +41,7 @@ class mesh(object):
         else:
             self._int_data = np.int64
 
-        # Set the int type for mesh
+        # Set the int type for Mesh
         if depth <= 10:
             # By setting dtype to int32, the maximum level is 10
             self._int_tree = np.int32
@@ -49,7 +49,7 @@ class mesh(object):
             # By setting dtype to int64, the maximum level is 20
             self._int_tree = np.int64
         else:
-            raise ValueError("The depth of mesh must be no more than 20!")
+            raise ValueError("The depth of Mesh must be no more than 20!")
 
 
     @property
@@ -60,15 +60,15 @@ class mesh(object):
 
     @property
     def depth(self):
-        """int, default to 8: Depth of mesh. For example, depth = 8
-                corresponds to the mesh dimension of (2^8, 2^8, 2^8)"""
+        """int, default to 8: Depth of Mesh. For example, depth = 8
+                corresponds to the Mesh dimension of (2^8, 2^8, 2^8)"""
         return self._depth
 
     def build(self):
         """
-        Build index for the points according to the mesh.
+        Build index for the points according to the Mesh.
         The indexing process produces a "rand" and a "mark" variables, which 
-        link the index of each point to its location in the mesh.
+        link the index of each point to its location in the Mesh.
 
         Returns:
             tuple of numpy.ndarray of int: (rank, mark).
