@@ -53,7 +53,7 @@ To start with, let's load the last snapshot of Illustris-3:
 >>> partType = ["dm", "gas", "stars"]
 >>> d = mi.load(base, snapNum=99, partType=partType)
 ```
-Now, a `dataset` object is created. Let's load a 100 kpc/h box in the simulation:
+Now, a `Dataset` object is created. Let's load a 100 kpc/h box in the simulation:
 ```python
 >>> boundary = np.array([[0,0,0],[100,100,100]])
 >>> fields = ["Coordinates", "Masses"]

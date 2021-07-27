@@ -14,7 +14,7 @@ Illustris or IllustrisTNG
 import numpy as np
 import h5py
 
-from .core import dataset, singleDataset
+from .core import Dataset, SingleDataset
 from .il_util import partTypeNum, snapPath, getNumPart
 
 __all__ = ["load"]
@@ -34,7 +34,7 @@ def load(basePath, snapNum, partType, depth=8, index_path=None):
             with the data.
 
     Returns:
-        `dataset`: Structured data.
+        `Dataset`: Structured data.
     """
 
     # Determine number of chunks
@@ -45,6 +45,6 @@ def load(basePath, snapNum, partType, depth=8, index_path=None):
     # Loop over chunks
     for i in range(n_chunk):
         fn = snapPath(basePath, snapNum, i)
-        d.append(singleDataset(fn, partType, depth, index_path))
+        d.append(SingleDataset(fn, partType, depth, index_path))
 
-    return dataset(d, n_chunk)
+    return Dataset(d, n_chunk)

@@ -13,26 +13,26 @@ import h5py
 from .il_util import *
 from .mesh import Mesh
 
-__all__ = ["dataset", "singleDataset"]
+__all__ = ["Dataset", "SingleDataset"]
 
-class dataset(object):
-    """dataset class stores a snapshot of simulation."""
+class Dataset(object):
+    """Dataset class stores a snapshot of simulation."""
 
     def __init__(self, datasets, n_chunk):
         """
         Args:
-            datasets (list of singleDataset): Chunks that store the 
+            datasets (list of SingleDataset): Chunks that store the 
                 snapshot of simulation. 
             n_chunk (int): Number of chunks
         """
 
-        super(dataset, self).__init__()
+        super(Dataset, self).__init__()
         self._datasets = datasets
         self._n_chunk = n_chunk
 
     @property
     def datasets(self):
-        """list of singleDataset: Chunks that store the snapshot 
+        """list of SingleDataset: Chunks that store the snapshot 
             of simulation."""
         return self._datasets
 
@@ -139,8 +139,8 @@ class dataset(object):
         return self._combine("sphere", partType, fields, mdi, float32, 
             center=center, radius=radius)
         
-class singleDataset(object):
-    """singleDataset class stores a chunck of snapshot."""
+class SingleDataset(object):
+    """SingleDataset class stores a chunck of snapshot."""
 
     def __init__(self, fn, partType, depth=8, index_path=None):
         """
@@ -153,7 +153,7 @@ class singleDataset(object):
                 with the data.
         """
 
-        super(singleDataset, self).__init__()
+        super(SingleDataset, self).__init__()
 
         self._fn = fn
 
@@ -211,7 +211,7 @@ class singleDataset(object):
 
     @property
     def index(self):
-        """dict: Newly generated or cached index of the dataset. """
+        """dict: Newly generated or cached index of the Dataset. """
 
         if self._index:
             return self._index
