@@ -11,4 +11,5 @@ Welcome to the documentation of ``mesh_illustris``!
    get_started
    cookbook
    contribute
+   test_guide
    module_api
