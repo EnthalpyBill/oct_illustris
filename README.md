@@ -1,7 +1,7 @@
 # `mesh_illustris`: Load Illustris with mesh
 
 [![version](https://img.shields.io/badge/PyPI-v0.1.2-blue.svg?style=flat)](https://pypi.org/project/mesh-illustris)
-[![version](https://img.shields.io/badge/latest-v0.1.dev2-brightgreen.svg?style=flat)](https://github.com/EnthalpyBill/mesh_illustris)
+[![version](https://img.shields.io/badge/latest-v0.1.3-brightgreen.svg?style=flat)](https://github.com/EnthalpyBill/mesh_illustris)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://opensource.org/licenses/MIT)
 [![doc](https://readthedocs.org/projects/mesh-illustris/badge/?version=latest)](https://mesh-illustris.readthedocs.io)
 

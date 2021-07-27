@@ -8,7 +8,7 @@ from .loader import *
 from .mesh import *
 
 __all__ = core.__all__ + il_util.__all__ + loader.__all__ + mesh.__all__
-__version__ = "0.1.dev2"
+__version__ = "0.1.3"
 __name__ = "mesh_illustris"
 __author__ = ["Bill Chen"]
 
