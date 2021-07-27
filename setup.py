@@ -9,8 +9,7 @@ with open("README.md", "r") as f:
 
 setup(
     name = 'mesh_illustris',
-    package_dir = {"": "mesh_illustris"},
-    packages = find_packages(where="mesh_illustris"),
+    packages = find_packages(),
     version = '0.1.dev2',
     url = "https://github.com/EnthalpyBill/mesh_illustris",
     license = "MIT",
