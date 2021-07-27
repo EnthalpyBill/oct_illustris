@@ -33,9 +33,9 @@ To use the package, just import it as
 ```
 To start with, let's load the last snapshot of Illustris-3:
 ```python
->>> base = "/your/base/path/output/snapdir_099/snap_099.0.hdf5"
+>>> base = "/your/base/path/output"
 >>> partType = ["dm", "gas", "stars"]
->>> d = mi.load(base, partType=partType)
+>>> d = mi.load(base, snapNum=99, partType=partType)
 ```
 Now, a `dataset` object is created. Let's load a 100 kpc/h box in the simulation:
 ```python
