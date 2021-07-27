@@ -4,8 +4,15 @@
 
 from setuptools import setup, find_packages
 
-with open("README.md", "r") as f:
-    long_description = f.read()
+long_description = (
+    "`mesh_illustris` is a toolkit for analyzing "
+    "[Illustris](https://www.illustris-project.org/) "
+    "(and also [IllustrisTNG](https://www.tng-project.org/)) "
+    "data with mesh. The goal of `mesh_illustris` is to "
+    "**quickly** load a subset (e.g., a box or sphere) of "
+    "particles/cells with **minimal** amount of memory. "
+    "Documentation is now available at "
+    "[Read the Docs](https://mesh-illustris.readthedocs.io)!")
 
 setup(
     name = 'mesh_illustris',
