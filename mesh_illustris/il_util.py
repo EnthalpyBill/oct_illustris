@@ -92,8 +92,8 @@ def partTypeNum(partType):
         int: Numeric particle type.
     """
 
-    if str(partType[-1]).isdigit():
-        return int(partType)
+    if str(partType)[-1].isdigit():
+        return int(str(partType)[-1])
         
     if str(partType).lower() in ["gas","cells"]:
         return 0
