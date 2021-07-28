@@ -8,7 +8,7 @@
 
 """
 loader module defines a convenient load() function to load snapshots in 
-Illustris or IllustrisTNG
+Illustris or IllustrisTNG.
 """
 
 import numpy as np
