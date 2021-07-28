@@ -1,9 +1,9 @@
 # `mesh_illustris`: Load Illustris with mesh
 
-[![pypi](https://img.shields.io/pypi/v/mesh_illustris.svg)](https://pypi.org/project/mesh-illustris)
-[![version](https://img.shields.io/badge/latest-v0.1.dev3-brightgreen.svg?style=flat)](https://github.com/EnthalpyBill/mesh_illustris)
-[![license](https://img.shields.io/pypi/l/mesh_illustris.svg?color=blue)](LICENSE)
-[![doc](https://readthedocs.org/projects/mesh-illustris/badge/?version=latest)](https://mesh-illustris.readthedocs.io)
+[![pypi](https://img.shields.io/pypi/v/mesh_illustris)](https://pypi.org/project/mesh-illustris)
+[![version](https://img.shields.io/badge/version-v0.1.dev3-green?style=flat&logo=github)](https://github.com/EnthalpyBill/mesh_illustris)
+[![license](https://img.shields.io/github/license/EnthalpyBill/mesh_illustris?color=blue)](LICENSE)
+[![doc](https://img.shields.io/readthedocs/mesh_illustris)](https://mesh-illustris.readthedocs.io)
 
 `mesh_illustris` is a toolkit for analyzing [Illustris](https://www.illustris-project.org/) (and also [IllustrisTNG](https://www.tng-project.org/)) data with mesh. The goal of `mesh_illustris` is to **quickly** load a subset (e.g., a box or sphere) of particles/cells with **minimal** amount of memory. Documentation is now available at [Read the Docs](https://mesh-illustris.readthedocs.io)!
 
