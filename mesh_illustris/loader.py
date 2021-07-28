@@ -3,8 +3,8 @@
 # License: MIT (see LICENSE)
 # 
 # Part of this file is based on the illustris_python project:
-# Copyright (c) 2017, illustris & illustris_python developers
-# License: FreeBSD (see LICENSE_bundled)
+# Copyright (c) 2017 illustris & illustris_python developers
+# License: FreeBSD (see licenses/license_illustris_python)
 
 """
 loader module defines a convenient load() function to load snapshots in 
