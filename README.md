@@ -1,6 +1,6 @@
 # `mesh_illustris`: Load Illustris with mesh
 
-[![pypi](https://img.shields.io/pypi/v/mesh_illustris?color=blue&logo=pypi)](https://pypi.org/project/mesh-illustris)
+[![pypi](https://img.shields.io/pypi/v/mesh_illustris?color=blue)](https://pypi.org/project/mesh-illustris)
 [![version](https://img.shields.io/badge/version-v0.1.dev3-green?style=flat&logo=github)](https://github.com/EnthalpyBill/mesh_illustris)
 [![license](https://img.shields.io/github/license/EnthalpyBill/mesh_illustris?color=blue)](LICENSE)
 [![doc](https://img.shields.io/readthedocs/mesh_illustris?color=brightgreen)](https://mesh-illustris.readthedocs.io)
