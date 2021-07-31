@@ -367,14 +367,13 @@ class SingleDataset(object):
 @jit(nopython=True)
 def _slicing(lower, upper, mark, index, depth, int_type):
     target = np.array([], dtype=int_type)
+    shifter = np.array([4**depth,2**depth,1], dtype=int_type)
     for i in range(lower[0], upper[0]):
         for j in range(lower[1], upper[1]):
-            idx_3d_lower = [i, j, lower[2]]
-            idx_1d_lower = np.sum(np.left_shift(
-                idx_3d_lower, [2*depth,depth,0]))
-            idx_3d_upper = [i, j, upper[2]]
-            idx_1d_upper = np.sum(np.left_shift(
-                idx_3d_upper, [2*depth,depth,0]))
+            idx_3d_lower = np.array([i, j, lower[2]], dtype=int_type)
+            idx_1d_lower = np.sum(idx_3d_lower * shifter)
+            idx_3d_upper = np.array([i, j, upper[2]], dtype=int_type)
+            idx_1d_upper = np.sum(idx_3d_upper * shifter)
 
             start = mark[idx_1d_lower]
             end = mark[idx_1d_upper]
