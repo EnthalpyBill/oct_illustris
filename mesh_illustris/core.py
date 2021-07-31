@@ -192,9 +192,6 @@ class SingleDataset(object):
         else:
             raise ValueError("The depth of Mesh must be no more than 20!")
 
-        # Set the int type for data
-        self._int_data = np.int64
-
     @property
     def fn(self):
         """str: File name to be loaded."""
@@ -251,21 +248,14 @@ class SingleDataset(object):
                 self._index[gName]["count"] = length
                 grp.attrs["count"] =  length
 
-                if not length:
-                    continue
-                elif length <= 2147483647:
-                    self._int_data = np.int32
-                else:
-                    self._int_data = np.int64
-
                 pos = data[gName]["Coordinates"]
                 ot = Mesh(pos, length, 0, self._boundary, self._depth)
 
                 self._index[gName]["index"], self._index[gName]["mark"] = ot.build()
                 grp.create_dataset("index", 
-                    data=self._index[gName]["index"], dtype=self._int_data)
+                    data=self._index[gName]["index"], dtype=np.int64)
                 grp.create_dataset("mark", 
-                    data=self._index[gName]["mark"], dtype=self._int_data)
+                    data=self._index[gName]["mark"], dtype=np.int64)
 
         return self._index
 
@@ -325,9 +315,9 @@ class SingleDataset(object):
             t0 = time.time()
             target = _slicing(lower, upper, 
                 self._index[gName]["mark"], self._index[gName]["index"],
-                self._depth, self._int_tree, self._int_data)
+                self._depth, self._int_tree)
             t1 = time.time()
-            target = np.array([], dtype=self._int_data)
+            target = np.array([], dtype=np.int64)
             for i in range(lower[0], upper[0]):
                 for j in range(lower[1], upper[1]):
                     idx_3d_lower = [i, j, lower[2]]
@@ -374,12 +364,11 @@ class SingleDataset(object):
 
 
 # Speeding up slicing with numba.jit
-from numba import jit, typed, from_dtype
+from numba import jit, typed, types
 
 @jit(nopython=True)
-def _slicing(lower, upper, mark, index, depth, int_tree, int_data):
-    int_data_numba = from_dtype(int_data)
-    target = typed.List.empty_list(int_data_numba)
+def _slicing(lower, upper, mark, index, depth, int_tree):
+    target = typed.List.empty_list(types.int64)
     shifter = np.array([4**depth,2**depth,1], dtype=int_tree)
     for i in range(lower[0], upper[0]):
         for j in range(lower[1], upper[1]):

@@ -35,12 +35,6 @@ class Mesh(object):
         self._boundary = boundary
         self._depth = depth
 
-        # Set the int type for data
-        if length <= 2147483647:
-            self._int_data = np.int32
-        else:
-            self._int_data = np.int64
-
         # Set the int type for Mesh
         if depth <= 10:
             # By setting dtype to int32, the maximum level is 10
@@ -50,7 +44,6 @@ class Mesh(object):
             self._int_tree = np.int64
         else:
             raise ValueError("The depth of Mesh must be no more than 20!")
-
 
     @property
     def boundary(self):
@@ -85,11 +78,11 @@ class Mesh(object):
         idx = np.argsort(idx_1d)
         idx_all = np.arange(8**self._depth, dtype=self._int_tree)
 
-        mark = np.zeros(8**self._depth+1, dtype=self._int_data)
+        mark = np.zeros(8**self._depth+1, dtype=np.int64)
         mark[1:] = np.searchsorted(idx_1d, idx_all, side="right", sorter=idx)
 
         rank = np.arange(self._offset, self._offset+self._length, 
-            dtype=self._int_data)
+            dtype=np.int64)
         rank = rank[idx]
 
         return rank, mark
