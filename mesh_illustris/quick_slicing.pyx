@@ -19,6 +19,6 @@ def slicing(lower, upper, mark, index, depth, int_tree):
 
             start = mark[idx_1d_lower]
             end = mark[idx_1d_upper]
-            target.extend(index[start:end])
+            target = np.append(target, index[start:end])
 
     return target
