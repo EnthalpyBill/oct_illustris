@@ -269,7 +269,7 @@ class SingleDataset(object):
 
         return self._index
 
-    @njit(nopython=True)
+    @jit(nopython=True)
     def _slicing(lower, upper, mark, index):
         target = np.array([], dtype=self._int_data)
         for i in range(lower[0], upper[0]):
