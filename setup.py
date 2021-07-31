@@ -25,7 +25,7 @@ setup(
     description = "Load Illustris with mesh.",
     long_description = long_description,
     long_description_content_type = "text/markdown",
-    install_requires = ["numpy>=1.18", "h5py>=2.10"],
+    install_requires = ["numpy>=1.18", "h5py>=2.10", "numba>=0.53.1"],
     python_requires = ">=3.8",
     classifiers = [
         "Programming Language :: Python :: 3",
