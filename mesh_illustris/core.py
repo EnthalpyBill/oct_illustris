@@ -313,9 +313,8 @@ class SingleDataset(object):
             gName = "PartType%d"%(ptNum)
 
             t0 = time.time()
-            target = slicing(lower, upper, 
-                self._index[gName]["mark"], self._index[gName]["index"],
-                self._depth, self._int_tree)
+            target = slicing(lower, upper, self._index[gName]["mark"], 
+                self._index[gName]["index"], self._depth)
             tt0 += time.time() - t0
 
             targets.append(target)
