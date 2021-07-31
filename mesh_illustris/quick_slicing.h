@@ -1,13 +1,17 @@
 // Copyright (c) 2021 Bill Chen
 // License: MIT (see LICENSE)
 
+#ifndef QUICK_SLICING_H // include guard
+#define QUICK_SLICING_H
+
 #include <iostream>
 #include <vector>
 #include <cmath>
   
 using namespace std;
 
-vector<long long> slicing(
+vector<long long> 
+cppslicing(
     long long * lower, 
     long long * upper, 
     long long * mark, 
@@ -37,3 +41,5 @@ vector<long long> slicing(
 
     return target;
 }
+
+#endif /* QUICK_SLICING_H */
