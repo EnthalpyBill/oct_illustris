@@ -13,7 +13,6 @@ import time
 
 from .il_util import *
 from .mesh import Mesh
-from .quick_slicing import slicing
 
 __all__ = ["Dataset", "SingleDataset"]
 
