@@ -321,7 +321,8 @@ class SingleDataset(object):
             gName = "PartType%d"%(ptNum)
 
             target = _slicing(lower, upper, 
-                self._index[gName]["mark"], self._index[gName]["index"])
+                self._index[gName]["mark"], self._index[gName]["index"],
+                self._depth, self._int_data)
             # target = np.array([], dtype=self._int_data)
             # for i in range(lower[0], upper[0]):
             #     for j in range(lower[1], upper[1]):
@@ -364,16 +365,16 @@ class SingleDataset(object):
         pass
 
 @jit(nopython=True)
-def _slicing(lower, upper, mark, index):
-    target = np.array([], dtype=self._int_data)
+def _slicing(lower, upper, mark, index, depth, int_type):
+    target = np.array([], dtype=int_type)
     for i in range(lower[0], upper[0]):
         for j in range(lower[1], upper[1]):
             idx_3d_lower = [i, j, lower[2]]
             idx_1d_lower = np.sum(np.left_shift(
-                idx_3d_lower, [2*self._depth,self._depth,0]))
+                idx_3d_lower, [2*depth,depth,0]))
             idx_3d_upper = [i, j, upper[2]]
             idx_1d_upper = np.sum(np.left_shift(
-                idx_3d_upper, [2*self._depth,self._depth,0]))
+                idx_3d_upper, [2*depth,depth,0]))
 
             start = mark[idx_1d_lower]
             end = mark[idx_1d_upper]
