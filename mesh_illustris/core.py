@@ -13,6 +13,7 @@ import time
 
 from .il_util import *
 from .mesh import Mesh
+from .quick_slicing import slicing
 
 __all__ = ["Dataset", "SingleDataset"]
 
@@ -305,39 +306,17 @@ class SingleDataset(object):
             upper = np.floor(boundary_normalized[1]).astype(self._int_tree)
 
         targets = []
-        tt0 = 0
-        tt1 = 0
         # Use for loop here assuming the box is small
         for p in partType:
             ptNum = partTypeNum(p)
             gName = "PartType%d"%(ptNum)
 
-            t0 = time.time()
-            target = _slicing(lower, upper, 
+            target = slicing(lower, upper, 
                 self._index[gName]["mark"], self._index[gName]["index"],
                 self._depth, self._int_tree)
-            t1 = time.time()
-            target = np.array([], dtype=np.int64)
-            for i in range(lower[0], upper[0]):
-                for j in range(lower[1], upper[1]):
-                    idx_3d_lower = [i, j, lower[2]]
-                    idx_1d_lower = np.sum(np.left_shift(
-                        idx_3d_lower, [2*self._depth,self._depth,0]))
-                    idx_3d_upper = [i, j, upper[2]]
-                    idx_1d_upper = np.sum(np.left_shift(
-                        idx_3d_upper, [2*self._depth,self._depth,0]))
-
-                    start = self._index[gName]["mark"][idx_1d_lower]
-                    end = self._index[gName]["mark"][idx_1d_upper]
-                    target = (np.r_[target, 
-                        self._index[gName]["index"][start:end]])
-            t2 = time.time()
-            tt0 += t1 - t0
-            tt1 += t2 - t1
 
             targets.append(target)
 
-        print("with jit: %.2fs; without jit: %.2fs"%(tt0, tt1))
         return loadFile(self._fn, partType, fields, mdi, float32, targets)
 
 
@@ -363,22 +342,25 @@ class SingleDataset(object):
         pass
 
 
-# Speeding up slicing with numba.jit
-from numba import jit, typed, types
+# # Speeding up slicing with numba.jit
+# from numba import jit, typed, types
 
-@jit(nopython=True)
-def _slicing(lower, upper, mark, index, depth, int_tree):
-    target = typed.List.empty_list(types.int64)
-    shifter = np.array([4**depth,2**depth,1], dtype=int_tree)
-    for i in range(lower[0], upper[0]):
-        for j in range(lower[1], upper[1]):
-            idx_3d_lower = np.array([i, j, lower[2]], dtype=int_tree)
-            idx_1d_lower = np.sum(idx_3d_lower * shifter)
-            idx_3d_upper = np.array([i, j, upper[2]], dtype=int_tree)
-            idx_1d_upper = np.sum(idx_3d_upper * shifter)
+# @jit(nopython=True)
+# def _slicing(lower, upper, mark, index, depth, int_tree):
+#     """
+#     Slice the index file according to lower/upper boundaries.
+#     """
+#     target = typed.List.empty_list(types.int64)
+#     shifter = np.array([4**depth,2**depth,1], dtype=int_tree)
+#     for i in range(lower[0], upper[0]):
+#         for j in range(lower[1], upper[1]):
+#             idx_3d_lower = np.array([i, j, lower[2]], dtype=int_tree)
+#             idx_1d_lower = np.sum(idx_3d_lower * shifter)
+#             idx_3d_upper = np.array([i, j, upper[2]], dtype=int_tree)
+#             idx_1d_upper = np.sum(idx_3d_upper * shifter)
 
-            start = mark[idx_1d_lower]
-            end = mark[idx_1d_upper]
-            target.extend(index[start:end])
+#             start = mark[idx_1d_lower]
+#             end = mark[idx_1d_upper]
+#             target.extend(index[start:end])
 
-    return target
+#     return target

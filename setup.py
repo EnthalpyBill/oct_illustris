@@ -3,6 +3,7 @@
 # License: MIT (see LICENSE)
 
 from setuptools import setup, find_packages
+from Cython.Build import cythonize
 
 long_description = (
     "`mesh_illustris` is a toolkit for analyzing "
@@ -25,11 +26,12 @@ setup(
     description = "Load Illustris with mesh.",
     long_description = long_description,
     long_description_content_type = "text/markdown",
-    install_requires = ["numpy>=1.18", "h5py>=2.10", "numba>=0.53.1"],
+    install_requires = ["numpy>=1.18", "h5py>=2.10"],
     python_requires = ">=3.8",
     classifiers = [
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
+    ext_modules = cythonize("mesh_illustris/quick_slicing.pyx")
 )
