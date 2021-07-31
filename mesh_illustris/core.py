@@ -313,8 +313,8 @@ class SingleDataset(object):
             gName = "PartType%d"%(ptNum)
 
             t0 = time.time()
-            target = slicing(lower, upper, self._index[gName]["mark"], 
-                self._index[gName]["index"], self._depth)
+            target = _slicing(lower, upper, self._index[gName]["mark"], 
+                self._index[gName]["index"], self._depth, self._int_tree)
             tt0 += time.time() - t0
 
             targets.append(target)
@@ -345,25 +345,25 @@ class SingleDataset(object):
         pass
 
 
-# # Speeding up slicing with numba.jit
-# from numba import jit, typed, types
+# Speeding up slicing with numba.jit
+from numba import jit, typed, types
 
-# @jit(nopython=True)
-# def _slicing(lower, upper, mark, index, depth, int_tree):
-#     """
-#     Slice the index file according to lower/upper boundaries.
-#     """
-#     target = typed.List.empty_list(types.int64)
-#     shifter = np.array([4**depth,2**depth,1], dtype=int_tree)
-#     for i in range(lower[0], upper[0]):
-#         for j in range(lower[1], upper[1]):
-#             idx_3d_lower = np.array([i, j, lower[2]], dtype=int_tree)
-#             idx_1d_lower = np.sum(idx_3d_lower * shifter)
-#             idx_3d_upper = np.array([i, j, upper[2]], dtype=int_tree)
-#             idx_1d_upper = np.sum(idx_3d_upper * shifter)
+@jit(nopython=True)
+def _slicing(lower, upper, mark, index, depth, int_tree):
+    """
+    Slice the index file according to lower/upper boundaries.
+    """
+    target = typed.List.empty_list(types.int64)
+    shifter = np.array([4**depth,2**depth,1], dtype=int_tree)
+    for i in range(lower[0], upper[0]):
+        for j in range(lower[1], upper[1]):
+            idx_3d_lower = np.array([i, j, lower[2]], dtype=int_tree)
+            idx_1d_lower = np.sum(idx_3d_lower * shifter)
+            idx_3d_upper = np.array([i, j, upper[2]], dtype=int_tree)
+            idx_1d_upper = np.sum(idx_3d_upper * shifter)
 
-#             start = mark[idx_1d_lower]
-#             end = mark[idx_1d_upper]
-#             target.extend(index[start:end])
+            start = mark[idx_1d_lower]
+            end = mark[idx_1d_upper]
+            target.extend(index[start:end])
 
-#     return target
+    return target
