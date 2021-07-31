@@ -9,7 +9,6 @@ core codes of the mesh_illustris package.
 import os
 import numpy as np
 import h5py
-from numba import jit
 
 from .il_util import *
 from .mesh import Mesh
@@ -364,9 +363,11 @@ class SingleDataset(object):
         """
         pass
 
+from numba import jit, types, typed
+
 @jit(nopython=True)
 def _slicing(lower, upper, mark, index, depth, int_tree, int_data):
-    target = np.array([], dtype=int_data)
+    target = typed.List.empty_list(int_data)
     shifter = np.array([4**depth,2**depth,1], dtype=int_tree)
     for i in range(lower[0], upper[0]):
         for j in range(lower[1], upper[1]):
