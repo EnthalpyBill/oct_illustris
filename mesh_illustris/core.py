@@ -378,6 +378,7 @@ from numba import jit, typed, from_dtype
 
 @jit(nopython=True)
 def _slicing(lower, upper, mark, index, depth, int_tree, int_data):
+    print(int_data)
     target = typed.List.empty_list(from_dtype(int_data))
     shifter = np.array([4**depth,2**depth,1], dtype=int_tree)
     for i in range(lower[0], upper[0]):
