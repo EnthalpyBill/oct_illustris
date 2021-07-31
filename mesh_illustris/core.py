@@ -377,6 +377,6 @@ def _slicing(lower, upper, mark, index, depth, int_type):
 
             start = mark[idx_1d_lower]
             end = mark[idx_1d_upper]
-            target = np.r_[target, index[start:end]]
+            target = np.append(target, index[start:end])
 
     return target
