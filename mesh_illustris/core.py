@@ -306,17 +306,21 @@ class SingleDataset(object):
             upper = np.floor(boundary_normalized[1]).astype(self._int_tree)
 
         targets = []
+        tt0 = 0
         # Use for loop here assuming the box is small
         for p in partType:
             ptNum = partTypeNum(p)
             gName = "PartType%d"%(ptNum)
 
+            t0 = time.time()
             target = slicing(lower, upper, 
                 self._index[gName]["mark"], self._index[gName]["index"],
                 self._depth, self._int_tree)
+            tt0 += time.time() - t0
 
             targets.append(target)
 
+        print("time: %.3fs"%tt0)
         return loadFile(self._fn, partType, fields, mdi, float32, targets)
 
 

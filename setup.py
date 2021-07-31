@@ -33,5 +33,5 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    ext_modules = cythonize("mesh_illustris/quick_slicing.pyx")
+    ext_modules = cythonize("mesh_illustris/*.pyx")
 )
