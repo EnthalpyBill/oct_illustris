@@ -17,7 +17,7 @@ long_description = (
 setup(
     name = 'mesh_illustris',
     packages = find_packages(),
-    version = '0.2',
+    version = '0.2.dev',
     url = "https://github.com/EnthalpyBill/mesh_illustris",
     license = "MIT",
     author = "Bill Chen <ybchen@umich.edu>",
