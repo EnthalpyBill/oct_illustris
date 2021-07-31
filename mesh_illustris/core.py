@@ -322,7 +322,7 @@ class SingleDataset(object):
 
             target = _slicing(lower, upper, 
                 self._index[gName]["mark"], self._index[gName]["index"],
-                self._depth, self._int_data)
+                self._depth, self._int_tree, self._int_data)
             # target = np.array([], dtype=self._int_data)
             # for i in range(lower[0], upper[0]):
             #     for j in range(lower[1], upper[1]):
@@ -365,18 +365,19 @@ class SingleDataset(object):
         pass
 
 @jit(nopython=True)
-def _slicing(lower, upper, mark, index, depth, int_type):
-    target = np.array([], dtype=int_type)
-    shifter = np.array([4**depth,2**depth,1], dtype=int_type)
+def _slicing(lower, upper, mark, index, depth, int_tree, int_data):
+    target = np.array([], dtype=int_data)
+    shifter = np.array([4**depth,2**depth,1], dtype=int_tree)
     for i in range(lower[0], upper[0]):
         for j in range(lower[1], upper[1]):
-            idx_3d_lower = np.array([i, j, lower[2]], dtype=int_type)
+            idx_3d_lower = np.array([i, j, lower[2]], dtype=int_tree)
             idx_1d_lower = np.sum(idx_3d_lower * shifter)
-            idx_3d_upper = np.array([i, j, upper[2]], dtype=int_type)
+            idx_3d_upper = np.array([i, j, upper[2]], dtype=int_tree)
             idx_1d_upper = np.sum(idx_3d_upper * shifter)
 
             start = mark[idx_1d_lower]
             end = mark[idx_1d_upper]
-            target = np.append(target, index[start:end])
+            target = np.concatenate((target, index[start:end]), 
+                dtype=int_data)
 
     return target
