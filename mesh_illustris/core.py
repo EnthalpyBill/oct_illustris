@@ -269,24 +269,6 @@ class SingleDataset(object):
 
         return self._index
 
-    @jit(nopython=True)
-    def _slicing(self, lower, upper, mark, index):
-        target = np.array([], dtype=self._int_data)
-        for i in range(lower[0], upper[0]):
-            for j in range(lower[1], upper[1]):
-                idx_3d_lower = [i, j, lower[2]]
-                idx_1d_lower = np.sum(np.left_shift(
-                    idx_3d_lower, [2*self._depth,self._depth,0]))
-                idx_3d_upper = [i, j, upper[2]]
-                idx_1d_upper = np.sum(np.left_shift(
-                    idx_3d_upper, [2*self._depth,self._depth,0]))
-
-                start = mark[idx_1d_lower]
-                end = mark[idx_1d_upper]
-                target = np.r_[target, index[start:end]]
-
-        return target
-
     def box(self, boundary, partType, fields, mdi=None, float32=True, 
         method="outer"):
         """
@@ -338,7 +320,7 @@ class SingleDataset(object):
             ptNum = partTypeNum(p)
             gName = "PartType%d"%(ptNum)
 
-            target = self._slicing(lower, upper, 
+            target = _slicing(lower, upper, 
                 self._index[gName]["mark"], self._index[gName]["index"])
             # target = np.array([], dtype=self._int_data)
             # for i in range(lower[0], upper[0]):
@@ -380,3 +362,21 @@ class SingleDataset(object):
                 "outer" or "exact" or "inner".
         """
         pass
+
+@jit(nopython=True)
+def _slicing(lower, upper, mark, index):
+    target = np.array([], dtype=self._int_data)
+    for i in range(lower[0], upper[0]):
+        for j in range(lower[1], upper[1]):
+            idx_3d_lower = [i, j, lower[2]]
+            idx_1d_lower = np.sum(np.left_shift(
+                idx_3d_lower, [2*self._depth,self._depth,0]))
+            idx_3d_upper = [i, j, upper[2]]
+            idx_1d_upper = np.sum(np.left_shift(
+                idx_3d_upper, [2*self._depth,self._depth,0]))
+
+            start = mark[idx_1d_lower]
+            end = mark[idx_1d_upper]
+            target = np.r_[target, index[start:end]]
+
+    return target
