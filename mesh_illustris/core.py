@@ -9,6 +9,7 @@ core codes of the mesh_illustris package.
 import os
 import numpy as np
 import h5py
+from numba import jit
 
 from .il_util import *
 from .mesh import Mesh
@@ -268,6 +269,7 @@ class SingleDataset(object):
 
         return self._index
 
+    @jit(nopython=True)
     def box(self, boundary, partType, fields, mdi=None, float32=True, 
         method="outer"):
         """
