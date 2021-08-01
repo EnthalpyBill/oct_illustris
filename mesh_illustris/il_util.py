@@ -50,11 +50,13 @@ def loadFile(fn, partType, fields=None, mdi=None, float32=True, index=None):
 
             numType = f["Header"].attrs["NumPart_ThisFile"][ptNum]
             result[gName]["count"] = numType
-            if not numType:
-                continue
 
             # Loop over each requested field for this particle type
             for i, field in enumerate(fields):
+                if not numType:
+                    result[gName][field] = np.array([])
+                    continue
+                    
                 # Allocate within return dict
                 dtype = f[gName][field].dtype
                 shape = f[gName][field].shape

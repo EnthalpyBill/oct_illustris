@@ -67,6 +67,11 @@ class Mesh(object):
             tuple of numpy.ndarray of int: (rank, mark).
         """
 
+        if not self._length:
+            mark = np.zeros(8**self._depth+1, dtype=np.int64)
+            rank = np.array([], dtype=np.int64)
+            return rank, mark
+
         idx_3d = (2**self._depth * (self._pos - self._boundary[0]) //
             (self._boundary[1] - self._boundary[0])).astype(self._int_tree)
 

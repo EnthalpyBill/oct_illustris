@@ -226,9 +226,6 @@ class SingleDataset(object):
                     self._index[gName] = {}
                     self._index[gName]["count"] = f[gName].attrs["count"]
 
-                    if not self._index[gName]["count"]:
-                        continue
-
                     self._index[gName]["index"] = f[gName]["index"][:]
                     self._index[gName]["mark"] = f[gName]["mark"][:]
 
@@ -248,7 +245,8 @@ class SingleDataset(object):
                 self._index[gName]["count"] = length
                 grp.attrs["count"] =  length
 
-                pos = data[gName]["Coordinates"]
+                pos = data[gName]["Coordinates"] if length else np.array([])
+                
                 ot = Mesh(pos, length, 0, self._boundary, self._depth)
 
                 self._index[gName]["index"], self._index[gName]["mark"] = ot.build()
