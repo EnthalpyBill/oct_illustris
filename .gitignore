@@ -1,4 +1,5 @@
-sample/
+# index file
+*idx*.h5
 
 # generated C extensions
 *.c
