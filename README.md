@@ -6,7 +6,7 @@
 [![doc](https://img.shields.io/readthedocs/mesh_illustris?color=brightgreen)](https://mesh-illustris.readthedocs.io)
 [![workflow](https://img.shields.io/github/workflow/status/EnthalpyBill/mesh_illustris/build_and_test?color=brightgreen&logo=github)](https://github.com/EnthalpyBill/mesh_illustris/actions)
 
-`mesh_illustris` is a toolkit for analyzing [Illustris](https://www.illustris-project.org/) (and also [IllustrisTNG](https://www.tng-project.org/)) data with mesh. The goal of `mesh_illustris` is to **quickly** load a subset (e.g., a box or sphere) of particles/cells with **minimal** amount of memory. Documentation is now available at [Read the Docs](https://mesh-illustris.readthedocs.io)!
+`mesh_illustris` is a toolkit for analyzing [Illustris](https://www.illustris-project.org/) (and also [IllustrisTNG](https://www.tng-project.org/)) data with mesh. The goal of `mesh_illustris` is to **quickly** load a subset (e.g., a box or sphere) of particles/cells with **minimal** amount of memory. [Documentation](https://mesh-illustris.readthedocs.io) is now available!
 
 ## Intro
 
@@ -62,14 +62,7 @@ Now, a `Dataset` object is created. Let's load a 100 kpc/h box in the simulation
 ```
 The method `box()` automatically start a pre-indexing process if it has not been done before. Once the pre-indexing is complete, several index files will be created at `base`. It may take time to generate such files, but once generated, `mesh_illustris` will skip pre-indexing for the next time. If you want to save the index file to a different location, just specify the path to `load()` with the argument `index_path`.
 
-<!-- `data` is a dict storing the required fields of particles of different types. An important goal of `mesh_illustris` is to keep consistancy with the original data, so that you can easily play with `data` with a little change your original code. For example, lets make a projection plot along the z-axis for the 100 kpc/h sphere:
-```python
->>> import matplotlib.pyplot as plt
->>> x = data["gas"]["Coordinates"][:,0]
->>> y = data["gas"]["Coordinates"][:,1]
->>> m = data["gas"]["Masses"]
->>> plt.hist2d(x, y, weights=m)
-``` -->
+For more example scripts using `mesh_illustris`, please see [cookbook](https://mesh-illustris.readthedocs.io/en/latest/cookbook.html). 
 
 ## Contribute
 
