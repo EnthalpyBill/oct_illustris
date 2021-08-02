@@ -165,12 +165,8 @@ class SingleDataset(object):
 
         self._depth = depth
 
-        self._pt_idx = 0
-        for p in partType:
-            self._pt_idx += 2**partTypeNum(p)
-
         self._index_path = index_path
-        suffix = ".idx_d%02d_pt%02d.h5"%(depth, self._pt_idx)
+        suffix = ".idx_d%02d.h5"%depth
         if index_path:
             self._index_fn = index_path + fn[fn.rfind("/"):] + suffix
         else:
@@ -217,43 +213,39 @@ class SingleDataset(object):
         # Generate index
         self._index = {}
 
-        # Load index if index file exists
-        if os.path.isfile(self._index_fn):
-            with h5py.File(self._index_fn,'r') as f:
-                for p in self._partType:
-                    ptNum = partTypeNum(p)
-                    gName = "PartType%d"%(ptNum)
-                    self._index[gName] = {}
-                    self._index[gName]["count"] = f[gName].attrs["count"]
 
-                    self._index[gName]["index"] = f[gName]["index"][:]
-                    self._index[gName]["mark"] = f[gName]["mark"][:]
-
-            return self._index
-
-        # Compute and save index if index file does not exist
-        data = loadFile(self._fn, self._partType, "Coordinates")
-        with h5py.File(self._index_fn, "w") as f:
-            # Loop over particle types
+        with h5py.File(self._index_fn,'a') as f:
             for p in self._partType:
                 ptNum = partTypeNum(p)
                 gName = "PartType%d"%(ptNum)
                 self._index[gName] = {}
-                grp = f.create_group(gName)
 
-                length = data[gName]["count"]
-                self._index[gName]["count"] = length
-                grp.attrs["count"] =  length
+                # Load index if exists in index file 
+                if "/"+gName in f.keys():
+                    self._index[gName]["count"] = f[gName].attrs["count"]
 
-                pos = data[gName]["Coordinates"] if length else np.array([])
-                
-                ot = Mesh(pos, length, 0, self._boundary, self._depth)
+                    self._index[gName]["index"] = f[gName]["index"][:]
+                    self._index[gName]["mark"] = f[gName]["mark"][:]
+                    
+                # Compute and save index if does not exist in index file
+                else:
+                    data = loadFile(self._fn, self._partType, "Coordinates")
+                    grp = f.create_group(gName)
 
-                self._index[gName]["index"], self._index[gName]["mark"] = ot.build()
-                grp.create_dataset("index", 
-                    data=self._index[gName]["index"], dtype=np.int64)
-                grp.create_dataset("mark", 
-                    data=self._index[gName]["mark"], dtype=np.int64)
+                    length = data[gName]["count"]
+                    self._index[gName]["count"] = length
+                    grp.attrs["count"] =  length
+
+                    pos = data[gName]["Coordinates"] if length else np.array([])
+                    
+                    m = Mesh(pos, length, 0, self._boundary, self._depth)
+
+                    (self._index[gName]["index"], 
+                        self._index[gName]["mark"]) = m.build()
+                    grp.create_dataset("index", 
+                        data=self._index[gName]["index"], dtype=np.int64)
+                    grp.create_dataset("mark", 
+                        data=self._index[gName]["mark"], dtype=np.int64)
 
         return self._index
 
