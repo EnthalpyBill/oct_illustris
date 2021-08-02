@@ -48,7 +48,7 @@ To use the package, just import it as
 ```python
 >>> import mesh_illustris as mi
 ```
-To start with, let's load the last snapshot of Illustris-3:
+To start with, let's load the last snapshot of the simulation:
 ```python
 >>> base = "/your/base/path/output"
 >>> partType = ["gas"]
