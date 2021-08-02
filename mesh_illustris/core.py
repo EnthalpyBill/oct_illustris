@@ -85,18 +85,15 @@ class Dataset(object):
             else:
                 # Loop over particle types
                 for p in partType:
-                    ptNum = partTypeNum(p)
-                    gName = "PartType%d"%(ptNum)
-
                     # Loop over each requested field for this particle type
                     for i, field in enumerate(fields):
                         # read data local to the current file
                         if mdi is None or mdi[i] is None:
-                            result[gName][field] = _concatenate_enable_empty(
-                                result[gName][field], r[gName][field][:])
+                            result[p][field] = _concatenate_enable_empty(
+                                result[p][field], r[p][field][:])
                         else:
-                            result[gName][field] = _concatenate_enable_empty(
-                                result[gName][field], r[gName][field][:,mdi[i]])
+                            result[p][field] = _concatenate_enable_empty(
+                                result[p][field], r[p][field][:,mdi[i]])
 
         return result
     
@@ -213,7 +210,7 @@ class SingleDataset(object):
         # Generate index
         self._index = {}
 
-
+        # Find index file, otherwise create
         with h5py.File(self._index_fn,'a') as f:
             for p in self._partType:
                 ptNum = partTypeNum(p)
@@ -232,11 +229,11 @@ class SingleDataset(object):
                     data = loadFile(self._fn, self._partType, "Coordinates")
                     grp = f.create_group(gName)
 
-                    length = data[gName]["count"]
+                    length = data[p]["count"]
                     self._index[gName]["count"] = length
                     grp.attrs["count"] =  length
 
-                    pos = data[gName]["Coordinates"] if length else np.array([])
+                    pos = data[p]["Coordinates"] if length else np.array([])
                     
                     m = Mesh(pos, length, 0, self._boundary, self._depth)
 

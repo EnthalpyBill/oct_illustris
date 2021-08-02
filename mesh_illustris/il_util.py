@@ -46,22 +46,22 @@ def loadFile(fn, partType, fields=None, mdi=None, float32=True, index=None):
         for j, p in enumerate(partType):
             ptNum = partTypeNum(p)
             gName = "PartType%d"%(ptNum)
-            result[gName] = {}
+            result[p] = {}
 
             numType = f["Header"].attrs["NumPart_ThisFile"][ptNum]
-            result[gName]["count"] = numType
+            result[p]["count"] = numType
 
             # Loop over each requested field for this particle type
             for i, field in enumerate(fields):
                 if not numType:
-                    result[gName][field] = np.array([])
+                    result[p][field] = np.array([])
                     continue
 
                 # Allocate within return dict
                 dtype = f[gName][field].dtype
                 shape = f[gName][field].shape
                 if dtype == np.float64 and float32: dtype = np.float32
-                result[gName][field] = np.zeros(shape, dtype=dtype)
+                result[p][field] = np.zeros(shape, dtype=dtype)
 
                 # read data local to the current file
                 ds = f[gName][field]
@@ -72,14 +72,14 @@ def loadFile(fn, partType, fields=None, mdi=None, float32=True, index=None):
                     dtype=dtype)
                 if index:
                     if mdi is None or mdi[i] is None:
-                        result[gName][field] = to_load[index[j]]
+                        result[p][field] = to_load[index[j]]
                     else:
-                        result[gName][field] = to_load[index[j],mdi[i]]
+                        result[p][field] = to_load[index[j],mdi[i]]
                 else:
                     if mdi is None or mdi[i] is None:
-                        result[gName][field] = to_load[:]
+                        result[p][field] = to_load[:]
                     else:
-                        result[gName][field] = to_load[:,mdi[i]]
+                        result[p][field] = to_load[:,mdi[i]]
 
     return result
 
