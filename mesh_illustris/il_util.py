@@ -43,7 +43,7 @@ def loadFile(fn, partType, fields=None, mdi=None, float32=True, index=None):
     
     result = {}
     with h5py.File(fn, "r") as f:
-        for p in partType:
+        for j, p in enumerate(partType):
             ptNum = partTypeNum(p)
             gName = "PartType%d"%(ptNum)
             result[gName] = {}
@@ -56,7 +56,7 @@ def loadFile(fn, partType, fields=None, mdi=None, float32=True, index=None):
                 if not numType:
                     result[gName][field] = np.array([])
                     continue
-                    
+
                 # Allocate within return dict
                 dtype = f[gName][field].dtype
                 shape = f[gName][field].shape
@@ -72,9 +72,9 @@ def loadFile(fn, partType, fields=None, mdi=None, float32=True, index=None):
                     dtype=dtype)
                 if index:
                     if mdi is None or mdi[i] is None:
-                        result[gName][field] = to_load[index[i]]
+                        result[gName][field] = to_load[index[j]]
                     else:
-                        result[gName][field] = to_load[index[i],mdi[i]]
+                        result[gName][field] = to_load[index[j],mdi[i]]
                 else:
                     if mdi is None or mdi[i] is None:
                         result[gName][field] = to_load[:]

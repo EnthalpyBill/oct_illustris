@@ -92,11 +92,11 @@ class Dataset(object):
                     for i, field in enumerate(fields):
                         # read data local to the current file
                         if mdi is None or mdi[i] is None:
-                            result[gName][field] = (np.r_[result[gName][field], 
-                                r[gName][field][:]])
+                            result[gName][field] = _concatenate_enable_empty(
+                                result[gName][field], r[gName][field][:])
                         else:
-                            result[gName][field] = (np.r_[result[gName][field], 
-                                r[gName][field][:,mdi[i]]])
+                            result[gName][field] = _concatenate_enable_empty(
+                                result[gName][field], r[gName][field][:,mdi[i]])
 
         return result
     
@@ -165,12 +165,12 @@ class SingleDataset(object):
 
         self._depth = depth
 
-        pt_idx = 0
+        self._pt_idx = 0
         for p in partType:
-            pt_idx += 2**partTypeNum(p)
+            self._pt_idx += 2**partTypeNum(p)
 
         self._index_path = index_path
-        suffix = ".idx_d%02d_pt%02d.h5"%(depth, pt_idx)
+        suffix = ".idx_d%02d_pt%02d.h5"%(depth, self._pt_idx)
         if index_path:
             self._index_fn = index_path + fn[fn.rfind("/"):] + suffix
         else:
@@ -186,7 +186,7 @@ class SingleDataset(object):
         if depth <= 10:
             # By setting dtype to int32, the maximum level is 10
             self._int_tree = np.int32
-        elif depth <=20:
+        elif depth <= 20:
             # By setting dtype to int64, the maximum level is 20
             self._int_tree = np.int64
         else:
@@ -340,6 +340,19 @@ class SingleDataset(object):
                 "outer" or "exact" or "inner".
         """
         pass
+
+
+def _concatenate_enable_empty(arr1, arr2):
+    """
+    Concatenate two arrays allowing one or two to be empty.
+    """
+    s1 = arr1.shape
+    s2 = arr2.shape
+    if len(s1) == 1 and len(s2) == 2:
+        return np.concatenate((arr1.reshape(0, s2[1]), arr2))
+    if len(s1) == 2 and len(s2) == 1:
+        return np.concatenate((arr1, arr2.reshape(0, s1[1])))
+    return np.concatenate((arr1, arr2))
 
 
 # Speeding up slicing with numba.jit
