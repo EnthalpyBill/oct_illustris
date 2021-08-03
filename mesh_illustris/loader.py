@@ -15,7 +15,7 @@ import numpy as np
 import h5py
 
 from .core import Dataset, SingleDataset
-from .il_util import partTypeNum, snapPath, getNumPart
+from .il_util import partTypeNum, snapPath
 
 __all__ = ["load"]
 

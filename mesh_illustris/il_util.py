@@ -13,7 +13,7 @@ il_util module defines some commonly used functions for Illustris.
 import numpy as np
 import h5py
 
-__all__ = ["loadFile", "partTypeNum", "snapPath", "getNumPart"]
+__all__ = ["loadFile", "partTypeNum", "snapPath"]
 
 def loadFile(fn, partType, fields=None, mdi=None, float32=True, index=None):
     """
@@ -130,23 +130,3 @@ def snapPath(basePath, snapNum, chunkNum=0):
     filePath = snapPath + "snap_%03d.%d.hdf5"%(snapNum, chunkNum)
 
     return filePath
-
-def getNumPart(header):
-    """
-    Calculate number of particles of all types given a snapshot header.
-
-    Args:
-        header (h5py.Group): header of the snapshot.
-
-    Returns:
-        numpy.ndarray of int: Number of particles of each type.
-    """
-
-    nTypes = 6
-
-    nPart = np.zeros(nTypes, dtype="i4")
-    for j in range(nTypes):
-        nPart[j] = (header["NumPart_Total"][j] | 
-            (header["NumPart_Total_HighWord"][j] << 32))
-
-    return nPart
