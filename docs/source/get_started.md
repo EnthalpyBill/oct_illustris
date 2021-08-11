@@ -8,6 +8,7 @@ The prerequisites of `mesh_illustris` are
 python >= 3.8
 numpy >= 1.18
 h5py >= 2.10
+numba >= 0.50
 ```
 
 Lower versions may also work (and higher versions may not work). Please [raise an issue](https://github.com/EnthalpyBill/mesh_illustris/issues/new) if it doesn't work for you. Next, the `mesh_illustris` package can be easily installed with `pip`:
