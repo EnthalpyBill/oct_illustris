@@ -4,7 +4,7 @@
 [![version](https://img.shields.io/badge/version-v0.2.dev-green?style=flat&logo=github)](https://github.com/ybillchen/mesh_illustris)
 [![license](https://img.shields.io/github/license/ybillchen/mesh_illustris?color=blue)](LICENSE)
 [![doc](https://img.shields.io/readthedocs/mesh_illustris?color=brightgreen)](https://mesh-illustris.readthedocs.io)
-[![workflow](https://img.shields.io/github/workflow/status/ybillchen/mesh_illustris/build_and_test?color=brightgreen&logo=github)](https://github.com/ybillchen/mesh_illustris/actions)
+[![workflow](https://img.shields.io/github/actions/workflow/status/ybillchen/mesh_illustris/build_and_test.yaml?color=brightgreen&logo=github)](https://github.com/ybillchen/mesh_illustris/actions)
 
 `mesh_illustris` is a toolkit for analyzing [Illustris](https://www.illustris-project.org/) (and also [IllustrisTNG](https://www.tng-project.org/)) data with mesh. The goal of `mesh_illustris` is to **quickly** load a subset (e.g., a box or sphere) of particles/cells with **minimal** amount of memory. [Documentation](https://mesh-illustris.readthedocs.io) is now available!
 
