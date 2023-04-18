@@ -1,10 +1,10 @@
 # `mesh_illustris`: Load Illustris with mesh
 
 [![pypi](https://img.shields.io/pypi/v/mesh_illustris?color=blue)](https://pypi.org/project/mesh-illustris)
-[![version](https://img.shields.io/badge/version-v0.2.dev-green?style=flat&logo=github)](https://github.com/EnthalpyBill/mesh_illustris)
-[![license](https://img.shields.io/github/license/EnthalpyBill/mesh_illustris?color=blue)](LICENSE)
+[![version](https://img.shields.io/badge/version-v0.2.dev-green?style=flat&logo=github)](https://github.com/ybillchen/mesh_illustris)
+[![license](https://img.shields.io/github/license/ybillchen/mesh_illustris?color=blue)](LICENSE)
 [![doc](https://img.shields.io/readthedocs/mesh_illustris?color=brightgreen)](https://mesh-illustris.readthedocs.io)
-[![workflow](https://img.shields.io/github/workflow/status/EnthalpyBill/mesh_illustris/build_and_test?color=brightgreen&logo=github)](https://github.com/EnthalpyBill/mesh_illustris/actions)
+[![workflow](https://img.shields.io/github/workflow/status/ybillchen/mesh_illustris/build_and_test?color=brightgreen&logo=github)](https://github.com/ybillchen/mesh_illustris/actions)
 
 `mesh_illustris` is a toolkit for analyzing [Illustris](https://www.illustris-project.org/) (and also [IllustrisTNG](https://www.tng-project.org/)) data with mesh. The goal of `mesh_illustris` is to **quickly** load a subset (e.g., a box or sphere) of particles/cells with **minimal** amount of memory. [Documentation](https://mesh-illustris.readthedocs.io) is now available!
 
@@ -28,13 +28,13 @@ h5py >= 2.10
 numba >= 0.50
 ```
 
-Lower versions may also work (and higher versions may not work). Please [raise an issue](https://github.com/EnthalpyBill/mesh_illustris/issues/new) if it doesn't work for you. Next, the `mesh_illustris` package can be easily installed with `pip`:
+Lower versions may also work (and higher versions may not work). Please [raise an issue](https://github.com/ybillchen/mesh_illustris/issues/new) if it doesn't work for you. Next, the `mesh_illustris` package can be easily installed with `pip`:
 ```shell
 $ pip install mesh_illustris
 ```
-Alternatively, you can `git clone` the source package from [GitHub](https://github.com/EnthalpyBill/mesh_illustris):
+Alternatively, you can `git clone` the source package from [GitHub](https://github.com/ybillchen/mesh_illustris):
 ```shell
-$ git clone https://github.com/EnthalpyBill/mesh_illustris.git
+$ git clone https://github.com/ybillchen/mesh_illustris.git
 ```
 To build and install `mesh_illustris`, `cd` the folder and `pip install` it:
 ```shell
@@ -67,15 +67,15 @@ For more example scripts using `mesh_illustris`, please see [cookbook](https://m
 
 ## Contribute
 
-Feel free to dive in! [Raise an issue](https://github.com/EnthalpyBill/mesh_illustris/issues/new) or submit pull requests.
+Feel free to dive in! [Raise an issue](https://github.com/ybillchen/mesh_illustris/issues/new) or submit pull requests.
 
 ## Maintainers
 
 **Author:** 
-- [@EnthalpyBill (Bill Chen)](https://github.com/EnthalpyBill)
+- [@ybillchen (Bill Chen)](https://github.com/ybillchen)
 
 **Maintainers:** 
-- [@EnthalpyBill (Bill Chen)](https://github.com/EnthalpyBill)
+- [@ybillchen (Bill Chen)](https://github.com/ybillchen)
 
 ## Cite
 
@@ -83,4 +83,4 @@ This README file is based on [Standard Readme](https://github.com/RichardLitt/st
 
 ## License
 
-`mesh_illustris` is available at [GitHub](https://github.com/EnthalpyBill/mesh_illustris) under the [MIT license](LICENSE).
+`mesh_illustris` is available at [GitHub](https://github.com/ybillchen/mesh_illustris) under the [MIT license](LICENSE).
