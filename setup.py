@@ -26,7 +26,7 @@ setup(
     long_description = long_description,
     long_description_content_type = "text/markdown",
     install_requires = ["numpy>=1.18", "h5py>=2.10", "numba>=0.50"],
-    python_requires = ">=3.8",
+    python_requires = ">=3.6",
     classifiers = [
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
