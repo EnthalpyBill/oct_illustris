@@ -49,7 +49,7 @@ def loadFile(fn, partType, fields=None, mdi=None, float32=True, index=None):
             result[p] = {}
 
             numType = f["Header"].attrs["NumPart_ThisFile"][ptNum]
-            result[p]["count"] = numType
+            # result[p]["count"] = numType
 
             # Loop over each requested field for this particle type
             for i, field in enumerate(fields):

@@ -491,7 +491,7 @@ def _box_lazy(j, d, boundary, partType, fields, mdi=None, float32=True,
         target = np.where(
             (x>boundary[0,0])&(x<boundary[1,0])&
             (y>boundary[0,1])&(y<boundary[1,1])&
-            (z>boundary[0,2])&(z<boundary[1,2]))
+            (z>boundary[0,2])&(z<boundary[1,2]))[0]
         targets.append(target)
 
     print("chunk %d, time: %.3fs"%(j, (time.time()-t0)))
