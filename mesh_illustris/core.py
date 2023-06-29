@@ -358,9 +358,9 @@ class SingleDataset(object):
             y = pos[:,1]
             z = pos[:,2]
             target = np.where(
-                (x>boundary[0,0])&(x<boundary[0,1])&
-                (y>boundary[1,0])&(y<boundary[1,1])&
-                (z>boundary[2,0])&(z<boundary[2,1]))
+                (x>boundary[0,0])&(x<boundary[1,0])&
+                (y>boundary[0,1])&(y<boundary[1,1])&
+                (z>boundary[0,2])&(z<boundary[1,2]))
             targets.append(target)
 
         print("time: %.3fs"%tt0)
