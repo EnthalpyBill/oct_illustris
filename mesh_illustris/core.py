@@ -74,6 +74,9 @@ class Dataset(object):
             if func == "box":
                 r = d.box(kwargs["boundary"], 
                     partType, fields, mdi, float32)
+            if func == "box_lazy":
+                r = d.box_lazy(kwargs["boundary"], 
+                    partType, fields, mdi, float32)
             elif func == "sphere":
                 r = d.sphere(kwargs["center"], kwargs["radius"], 
                     partType, fields, mdi, float32)
@@ -97,7 +100,7 @@ class Dataset(object):
 
         return result
     
-    def box(self, boundary, partType, fields, mdi=None, float32=False):
+    def box(self, boundary, partType, fields, mdi=None, float32=False, lazy=False):
         """
         Load a sub-box of data.
 
@@ -109,10 +112,14 @@ class Dataset(object):
             mdi (None or list of int, default to None): sub-indeces to be 
                 loaded. None to load all.
             float32 (bool, default to False): Whether to use float32 or not.
+            lazy (bool, default to False): Lazy mode (no indexing)
 
         Returns:
             dict: Sub-box of data.
         """
+        if lazy:
+            return self._combine("box_lazy", partType, fields, mdi, float32, 
+                boundary=boundary)
         return self._combine("box", partType, fields, mdi, float32, 
             boundary=boundary)
 
@@ -303,6 +310,69 @@ class SingleDataset(object):
                 self._index[gName]["index"], self._depth, self._int_tree)
             tt0 += time.time() - t0
 
+            targets.append(target)
+
+        print("time: %.3fs"%tt0)
+        return loadFile(self._fn, partType, fields, mdi, float32, targets)
+
+
+    def box_lazy(self, boundary, partType, fields, mdi=None, float32=True, 
+        method="outer"):
+        """
+        Slicing method to load a sub-box of data in lazy mode.
+
+        Note: The current version only support loading the outer or inner 
+            box of the sub-box. Loading the exact sub-box is not supported.
+
+        Args:
+            boundary (numpy.ndarray of scalar): Boundary of the box, with 
+                shape of (3, 2).
+            partType (str or list of str): Particle types to be loaded.
+            fields (str or list of str): Particle fields to be loaded.
+            mdi (None or list of int, default to None): sub-indeces to be 
+                loaded. None to load all.
+            float32 (bool, default to False): Whether to use float32 or not.
+            method (str, default to "outer"): How to load the box, must be 
+                "outer" or "exact" or "inner".
+
+        Returns:
+            dict: Sub-box of data.
+        """
+
+        # Make sure fields is not a single element
+        if isinstance(fields, str):
+            fields = [fields]
+
+        # Make sure partType is not a single element
+        if isinstance(partType, str):
+            partType = [partType]
+
+        boundary_normalized = (
+            2**self._depth * (boundary - self._boundary[0]) / 
+            (self._boundary[1] - self._boundary[0]))
+
+        if method in ["outer", "exact"]:
+            lower = np.floor(boundary_normalized[0]).astype(self._int_tree)
+            upper = np.ceil(boundary_normalized[1]).astype(self._int_tree)
+
+        if method == "inner":
+            lower = np.ceil(boundary_normalized[0]).astype(self._int_tree)
+            upper = np.floor(boundary_normalized[1]).astype(self._int_tree)
+
+        targets = []
+        tt0 = 0
+
+        # Use for loop here assuming the box is small
+        for p in partType:
+            data = loadFile(self._fn, p, "Coordinates")
+            pos = data[p]["Coordinates"]
+            x = pos[:,0]
+            y = pos[:,1]
+            z = pos[:,2]
+            target = np.where(
+                (x>boundary[0,0])&(x<boundary[0,1])&
+                (y>boundary[1,0])&(y<boundary[1,1])&
+                (z>boundary[2,0])&(z<boundary[2,1]))
             targets.append(target)
 
         print("time: %.3fs"%tt0)
