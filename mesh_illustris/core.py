@@ -347,18 +347,6 @@ class SingleDataset(object):
         if isinstance(partType, str):
             partType = [partType]
 
-        boundary_normalized = (
-            2**self._depth * (boundary - self._boundary[0]) / 
-            (self._boundary[1] - self._boundary[0]))
-
-        if method in ["outer", "exact"]:
-            lower = np.floor(boundary_normalized[0]).astype(self._int_tree)
-            upper = np.ceil(boundary_normalized[1]).astype(self._int_tree)
-
-        if method == "inner":
-            lower = np.ceil(boundary_normalized[0]).astype(self._int_tree)
-            upper = np.floor(boundary_normalized[1]).astype(self._int_tree)
-
         targets = []
         tt0 = 0
 
