@@ -83,7 +83,7 @@ class Dataset(object):
                 para_list.append((d, kwargs["boundary"], partType, fields, mdi, float32))
 
             with Pool(self._Np) as pool:
-                results = pool.starmap(box_lazy, para_list)
+                results = pool.starmap(_box_lazy, para_list)
 
         else:
             results = []
