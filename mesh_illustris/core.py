@@ -368,7 +368,7 @@ class SingleDataset(object):
             partType = [partType]
 
         targets = []
-        tt0 = 0
+        t0 = time.time()
 
         # Use for loop here assuming the box is small
         for p in partType:
@@ -383,7 +383,7 @@ class SingleDataset(object):
                 (z>boundary[0,2])&(z<boundary[1,2]))
             targets.append(target)
 
-        print("time: %.3fs"%(time.time()-tt0))
+        print("time: %.3fs"%(time.time()-t0))
         return loadFile(self._fn, partType, fields, mdi, float32, targets)
 
 
