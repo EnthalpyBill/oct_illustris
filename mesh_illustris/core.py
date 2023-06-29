@@ -80,7 +80,7 @@ class Dataset(object):
 
             para_list = []
             for j, d in enumerate(self._datasets):
-                para_list.append((d, kwargs["boundary"], partType, fields, mdi, float32))
+                para_list.append((j, d, kwargs["boundary"], partType, fields, mdi, float32))
 
             with Pool(self._Np) as pool:
                 results = pool.starmap(_box_lazy, para_list)
@@ -446,7 +446,7 @@ def _slicing(lower, upper, mark, index, depth, int_tree):
     return target
 
 
-def _box_lazy(d, boundary, partType, fields, mdi=None, float32=True, 
+def _box_lazy(j, d, boundary, partType, fields, mdi=None, float32=True, 
     method="outer"):
     """
     Slicing method to load a sub-box of data in lazy mode.
@@ -479,7 +479,7 @@ def _box_lazy(d, boundary, partType, fields, mdi=None, float32=True,
         partType = [partType]
 
     targets = []
-    tt0 = 0
+    t0 = time.time()
 
     # Use for loop here assuming the box is small
     for p in partType:
@@ -494,5 +494,5 @@ def _box_lazy(d, boundary, partType, fields, mdi=None, float32=True,
             (z>boundary[0,2])&(z<boundary[1,2]))
         targets.append(target)
 
-    print("time: %.3fs"%(time.time()-tt0))
+    print("chunk %d, time: %.3fs"%(j, (time.time()-t0)))
     return loadFile(d._fn, partType, fields, mdi, float32, targets)
