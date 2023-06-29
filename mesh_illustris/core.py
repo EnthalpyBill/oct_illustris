@@ -10,6 +10,7 @@ import os
 import numpy as np
 import h5py
 import time
+from multiprocessing import Pool
 
 from .il_util import *
 from .mesh import Mesh
@@ -19,17 +20,21 @@ __all__ = ["Dataset", "SingleDataset"]
 class Dataset(object):
     """Dataset class stores a snapshot of simulation."""
 
-    def __init__(self, datasets, n_chunk):
+    def __init__(self, datasets, n_chunk, parallel=True, Np=32):
         """
         Args:
             datasets (list of SingleDataset): Chunks that store the 
                 snapshot of simulation. 
-            n_chunk (int): Number of chunks
+            n_chunk (int): Number of chunks.
+            parallel (bool, default to False): Parallel or not.
+            Np (int, default to 32): Number of processes.
         """
 
         super(Dataset, self).__init__()
         self._datasets = datasets
         self._n_chunk = n_chunk
+        self._parallel = parallel
+        self._Np = Np
 
     @property
     def datasets(self):
@@ -70,19 +75,34 @@ class Dataset(object):
         if isinstance(partType, str):
             partType = [partType]
 
-        for j, d in enumerate(self._datasets):
-            if func == "box":
-                r = d.box(kwargs["boundary"], 
-                    partType, fields, mdi, float32)
-            if func == "box_lazy":
-                r = d.box_lazy(kwargs["boundary"], 
-                    partType, fields, mdi, float32)
-            elif func == "sphere":
-                r = d.sphere(kwargs["center"], kwargs["radius"], 
-                    partType, fields, mdi, float32)
-            else:
-                raise ValueError("func must be either \"box\" or \"sphere\"!")
 
+        if self._parallel:
+
+            para_list = []
+            for j, d in enumerate(self._datasets):
+                para_list.append((d, kwargs["boundary"], partType, fields, mdi, float32))
+
+            with Pool(self._Np) as pool:
+                results = pool.starmap(box_lazy, para_list)
+
+        else:
+            results = []
+            for j, d in enumerate(self._datasets):
+                if func == "box":
+                    r = d.box(kwargs["boundary"], 
+                        partType, fields, mdi, float32)
+                if func == "box_lazy":
+                    r = d.box_lazy(kwargs["boundary"], 
+                        partType, fields, mdi, float32)
+                elif func == "sphere":
+                    r = d.sphere(kwargs["center"], kwargs["radius"], 
+                        partType, fields, mdi, float32)
+                else:
+                    raise ValueError("func must be either \"box\" or \"sphere\"!")
+
+                results.append(r)
+
+        for j, r in enumerate(results):
             if j == 0:
                 result = r
             else:
@@ -424,3 +444,55 @@ def _slicing(lower, upper, mark, index, depth, int_tree):
             target.extend(index[start:end])
 
     return target
+
+
+def _box_lazy(d, boundary, partType, fields, mdi=None, float32=True, 
+    method="outer"):
+    """
+    Slicing method to load a sub-box of data in lazy mode.
+
+    Note: The current version only support loading the outer or inner 
+        box of the sub-box. Loading the exact sub-box is not supported.
+
+    Args:
+        d (SingleDataset)
+        boundary (numpy.ndarray of scalar): Boundary of the box, with 
+            shape of (3, 2).
+        partType (str or list of str): Particle types to be loaded.
+        fields (str or list of str): Particle fields to be loaded.
+        mdi (None or list of int, default to None): sub-indeces to be 
+            loaded. None to load all.
+        float32 (bool, default to False): Whether to use float32 or not.
+        method (str, default to "outer"): How to load the box, must be 
+            "outer" or "exact" or "inner".
+
+    Returns:
+        dict: Sub-box of data.
+    """
+
+    # Make sure fields is not a single element
+    if isinstance(fields, str):
+        fields = [fields]
+
+    # Make sure partType is not a single element
+    if isinstance(partType, str):
+        partType = [partType]
+
+    targets = []
+    tt0 = 0
+
+    # Use for loop here assuming the box is small
+    for p in partType:
+        data = loadFile(d._fn, p, "Coordinates")
+        pos = data[p]["Coordinates"]
+        x = pos[:,0]
+        y = pos[:,1]
+        z = pos[:,2]
+        target = np.where(
+            (x>boundary[0,0])&(x<boundary[1,0])&
+            (y>boundary[0,1])&(y<boundary[1,1])&
+            (z>boundary[0,2])&(z<boundary[1,2]))
+        targets.append(target)
+
+    print("time: %.3fs"%(time.time()-tt0))
+    return loadFile(d._fn, partType, fields, mdi, float32, targets)

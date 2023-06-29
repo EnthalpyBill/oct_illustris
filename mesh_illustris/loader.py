@@ -19,7 +19,7 @@ from .il_util import partTypeNum, snapPath
 
 __all__ = ["load"]
 
-def load(basePath, snapNum, partType, depth=8, index_path=None):
+def load(basePath, snapNum, partType, depth=8, index_path=None, parallel=True, Np=32):
     """
     Function to load snapshots in Illustris or IllustrisTNG.
 
@@ -32,6 +32,8 @@ def load(basePath, snapNum, partType, depth=8, index_path=None):
             corresponds to the mesh dimension of (2^8, 2^8, 2^8).
         index_path (str): Path to store the index files. None to store 
             with the data.
+        parallel (bool, default to False): Parallel or not.
+        Np (int, default to 32): Number of processes.
 
     Returns:
         `Dataset`: Structured data.
@@ -47,4 +49,4 @@ def load(basePath, snapNum, partType, depth=8, index_path=None):
         fn = snapPath(basePath, snapNum, i)
         d.append(SingleDataset(fn, partType, depth, index_path))
 
-    return Dataset(d, n_chunk)
+    return Dataset(d, n_chunk, parallel=True, Np=32)
