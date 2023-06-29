@@ -481,6 +481,7 @@ def _box_lazy(j, d, boundary, partType, fields, mdi=None, float32=True,
     targets = []
     t0 = time.time()
     nfound = 0
+    ntot = 0
 
     # Use for loop here assuming the box is small
     for p in partType:
@@ -494,7 +495,8 @@ def _box_lazy(j, d, boundary, partType, fields, mdi=None, float32=True,
             (y>boundary[0,1])&(y<boundary[1,1])&
             (z>boundary[0,2])&(z<boundary[1,2]))[0]
         targets.append(target)
+        ntot += len(pos)
         nfound += len(target)
 
-    print("chunk %d, %d found, time: %.3fs"%(j, nfound, (time.time()-t0)))
+    print("chunk %d, %d/%d found, time: %.3fs"%(j, nfound, ntot, (time.time()-t0)))
     return loadFile(d._fn, partType, fields, mdi, float32, targets)
